@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Banana Clicker Store</title>
+    <title>Banana Clicker Business Edition</title>
     <style>
         body {
             display: flex;
@@ -17,61 +17,67 @@
             user-select: none;
         }
 
-        #score-container {
-            font-size: 4rem;
-            color: #333;
-            text-shadow: 2px 2px 0px #fff;
-            margin-bottom: 5px;
+        /* Рекламный блок сверху */
+        .ad-top {
+            position: absolute;
+            top: 10px;
+            width: 320px;
+            height: 50px;
+            background: rgba(0,0,0,0.1);
+            border: 1px dashed #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #444;
         }
 
-        #bps-display {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
+        #score-container { font-size: 4rem; color: #333; text-shadow: 2px 2px 0px #fff; margin-bottom: 5px; }
+        #bps-display { font-size: 1.2rem; color: #555; margin-bottom: 20px; }
+        
         #banana {
-            width: 250px;
+            width: 200px;
             cursor: pointer;
             transition: transform 0.05s ease;
             -webkit-user-drag: none;
         }
-
         #banana:active { transform: scale(0.85); }
 
-        /* Магазин */
         .shop {
-            margin-top: 30px;
+            margin-top: 20px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
             backdrop-filter: blur(5px);
-            border: 2px solid rgba(255,255,255,0.3);
+            text-align: center;
         }
 
         .shop-item {
-            padding: 15px 25px;
-            font-size: 1rem;
+            padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: 0.3s;
+            font-weight: bold;
         }
 
-        .shop-item:disabled {
-            background-color: #888;
-            cursor: not-allowed;
-            opacity: 0.7;
+        .shop-item:disabled { background-color: #888; opacity: 0.7; }
+
+        /* Кнопка доната */
+        .donate-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .shop-item:hover:not(:disabled) {
-            background-color: #45a049;
-            transform: translateY(-2px);
-        }
-
-        /* Анимация бонуса */
         .bonus-anim {
             position: absolute;
             color: #ff4500;
@@ -79,14 +85,12 @@
             animation: floatUp 1s forwards;
             pointer-events: none;
         }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-100px); }
-        }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-100px); } }
     </style>
 </head>
 <body>
+
+    <div class="ad-top">МЕСТО ДЛЯ РЕКЛАМЫ (Google AdSense)</div>
 
     <div id="score-container">0</div>
     <div id="bps-display">Бананов в сек: 0</div>
@@ -94,9 +98,9 @@
     <img id="banana" src="https://img.icons8.com/emoji/256/banana-emoji.png" alt="Banana">
 
     <div class="shop">
-        <button id="buyAuto" class="shop-item" disabled>
-            Купить Автокликер (10 🍌)
-        </button>
+        <button id="buyAuto" class="shop-item" disabled>Купить Автокликер (10 🍌)</button>
+        <br>
+        <a href="https://www.donationalerts.com/" target="_blank" class="donate-btn">Поддержать автора ☕</a>
     </div>
 
     <script>
@@ -109,37 +113,22 @@
         const banana = document.getElementById('banana');
         const buyBtn = document.getElementById('buyAuto');
 
-        // Клик по банану
         banana.addEventListener('click', (e) => {
             count++;
-            checkBonuses(e);
+            if (count === 10) { count += 10; createFloatingText(e, "+10!"); }
             updateUI();
         });
 
-        // Покупка автокликера
         buyBtn.addEventListener('click', () => {
             if (count >= autoClickPrice) {
                 count -= autoClickPrice;
                 autoClickers++;
-                // Цена растет с каждой покупкой (опционально)
                 autoClickPrice = Math.round(autoClickPrice * 1.5);
                 buyBtn.innerText = `Купить Автокликер (${autoClickPrice} 🍌)`;
                 updateUI();
             }
         });
 
-        // Проверка бонусов за 10 и 50 (как ты просил)
-        function checkBonuses(e) {
-            if (count === 10) {
-                count += 10;
-                createFloatingText(e, "+10 БОНУС!");
-            } else if (count === 50) {
-                count += 50;
-                createFloatingText(e, "+50 МЕГА!");
-            }
-        }
-
-        // Логика автокликера (срабатывает каждую секунду)
         setInterval(() => {
             if (autoClickers > 0) {
                 count += autoClickers;
@@ -150,8 +139,6 @@
         function updateUI() {
             scoreDisplay.innerText = Math.floor(count);
             bpsDisplay.innerText = `Бананов в сек: ${autoClickers}`;
-            
-            // Активируем кнопку, если хватает денег
             buyBtn.disabled = count < autoClickPrice;
         }
 
