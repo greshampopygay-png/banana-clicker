@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Banana Clicker: Money Edition</title>
+    <title>Banana Clicker: Pro Gold</title>
 
     <script src="https://omg10.com/4/10948390"></script>
 
@@ -19,7 +19,6 @@
             color: white; margin: 0; padding: 15px; user-select: none; touch-action: manipulation;
         }
 
-        /* Шапка */
         .header-stats { 
             background: var(--card-bg); backdrop-filter: blur(15px);
             padding: 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1);
@@ -28,26 +27,14 @@
 
         .score { font-size: 46px; color: var(--yellow); font-weight: 900; display: block; }
         .stat-line { display: flex; justify-content: space-around; margin-top: 10px; font-size: 13px; color: #888; }
-        .vip-badge { color: var(--purple); font-weight: bold; display: none; margin-top: 5px; animation: glow 1.5s infinite alternate; }
+        .vip-badge { color: var(--purple); font-weight: bold; display: none; margin-top: 5px; text-shadow: 0 0 10px var(--purple); }
 
-        @keyframes glow { from { text-shadow: 0 0 5px #9b59b6; } to { text-shadow: 0 0 20px #9b59b6; } }
-
-        /* Кнопки */
-        .btn-ad { 
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white; border: none; padding: 16px; border-radius: 18px; 
-            font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; margin-bottom: 10px;
-        }
-
-        .btn-donat {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white; border: none; padding: 16px; border-radius: 18px;
-            font-weight: bold; cursor: pointer; width: 100%; max-width: 300px;
-            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
-        }
-
-        #banana { width: 190px; cursor: pointer; transition: 0.1s; margin: 20px 0; }
+        #banana-container { margin: 25px 0; position: relative; }
+        #banana { width: 190px; cursor: pointer; transition: 0.1s; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
         #banana:active { transform: scale(0.85); }
+
+        .btn-ad { background: linear-gradient(135deg, #ff4757, #ff6b81); color: white; border: none; padding: 16px; border-radius: 18px; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; margin-bottom: 10px; }
+        .btn-donat { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; border: none; padding: 16px; border-radius: 18px; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3); }
 
         .section-title { text-align: left; margin: 25px 0 10px 5px; font-size: 14px; color: #777; text-transform: uppercase; }
         .shop-card { background: var(--card-bg); border-radius: 20px; padding: 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
@@ -57,7 +44,6 @@
         .skin-card.active { border-color: var(--yellow); }
         .skin-preview { width: 55px; height: 55px; margin-bottom: 10px; }
 
-        /* Эффекты */
         .dark { filter: brightness(0.2); }
         .rainbow { animation: rainbowAnim 3s infinite linear; }
         .pixel { image-rendering: pixelated; filter: contrast(1.2); }
@@ -67,19 +53,20 @@
         button.btn-action { padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; }
         .btn-buy { background: var(--green); color: white; }
         .btn-select { background: var(--blue); color: white; }
-        button:disabled { opacity: 0.3; }
+        button:disabled { opacity: 0.3; cursor: not-allowed; }
 
         #epic-section { display: none; padding: 15px; border: 2px dashed rgba(241, 196, 15, 0.3); border-radius: 25px; margin-top: 20px; }
-        
         .click-num { position: absolute; color: var(--yellow); font-weight: bold; font-size: 26px; pointer-events: none; animation: flyUp 0.8s forwards; }
         @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
+
+        footer { margin-top: 40px; padding-bottom: 30px; font-size: 11px; color: #444; }
     </style>
 </head>
 <body>
 
     <div class="header-stats">
-        <div id="player-rank" style="font-size: 11px; letter-spacing: 2px; color: #888;">ЗВАНИЕ: НОВИЧОК</div>
-        <div class="vip-badge" id="vip-tag">★ VIP-СТАТУС: X2 КЛИК ★</div>
+        <div id="player-rank" style="font-size: 11px; color: #888;">ЗВАНИЕ: НОВИЧОК</div>
+        <div class="vip-badge" id="vip-tag">★ VIP-СТАТУС: ВКЛЮЧЕН ★</div>
         <span class="score"><span id="score">0</span> 🍌</span>
         <div class="stat-line">
             <div>Клик: <b id="click-power">1</b></div>
@@ -88,25 +75,23 @@
     </div>
 
     <div id="banana-container">
-        <button class="btn-ad" onclick="watchAd()">📺 БОНУС +50 🍌 (РЕКЛАМА)</button><br>
-        
-        <button class="btn-donat" onclick="donatAuthor()">💜 ПОДДЕРЖАТЬ АВТОРА (ДОНАТ)</button><br>
-        
+        <button class="btn-ad" onclick="handleAdClick()">📺 БОНУС +50 🍌 (РЕКЛАМА)</button><br>
+        <button class="btn-donat" onclick="handleDonatClick()">💜 ПОДДЕРЖАТЬ / ДОНАТ</button><br>
         <img id="banana" src="https://img.icons8.com/emoji/256/banana-emoji.png" alt="Banana">
     </div>
 
-    <div class="section-title">Магазин</div>
+    <div class="section-title">Прокачка</div>
     <div class="shop-card">
         <div style="text-align: left;"><b>Сила клика</b><br><small id="u-cost-text">Цена: 10</small></div>
-        <button class="btn-action btn-buy" id="buy-upgrade" onclick="buyUpgrade()">Улучшить</button>
+        <button class="btn-action btn-buy" id="buy-upgrade" onclick="buyUpgrade()">+1 Клик</button>
     </div>
     <div class="shop-card">
-        <div style="text-align: left;"><b>Авто-ферма</b><br><small id="a-cost-text">Цена: 50</small></div>
-        <button class="btn-action btn-buy" id="buy-auto" onclick="buyAuto()">Купить</button>
+        <div style="text-align: left;"><b>Ферма</b><br><small id="a-cost-text">Цена: 50</small></div>
+        <button class="btn-action btn-buy" id="buy-auto" onclick="buyAuto()">+1 Авто</button>
     </div>
 
     <div class="section-title">Скины</div>
-    <div class="grid" id="normal-skins">
+    <div class="grid">
         <div class="skin-card active" id="card0">
             <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview">
             <button class="btn-action btn-select" onclick="selectSkin(0)">Выбрать</button>
@@ -128,8 +113,14 @@
                 <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview pixel">
                 <button class="btn-action btn-buy" id="btn-skin3" onclick="buySkin(3, 1000)">1000</button>
             </div>
+            <div class="skin-card" id="card4">
+                <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview choco">
+                <button class="btn-action btn-buy" id="btn-skin4" onclick="buySkin(4, 1500)">1500</button>
+            </div>
         </div>
     </div>
+
+    <footer>Created with Love</footer>
 
 <script>
     let score = parseFloat(localStorage.getItem('b_score')) || 0;
@@ -143,30 +134,23 @@
 
     const skinClasses = ['', 'dark', 'rainbow', 'pixel', 'choco'];
 
-    // --- ФУНКЦИЯ РЕКЛАМЫ ---
-    function watchAd() {
-        // 1. Открываем твою ссылку Monetag
+    function handleAdClick() {
+        // Твоя ссылка Monetag
         window.open("https://omg10.com/4/10948390", "_blank");
-        
-        // 2. Начисляем бонус
         score += 50;
         updateDisplay();
-        alert("Реклама открыта! Бонус +50 бананов начислен.");
     }
 
-    // --- ФУНКЦИЯ ДОНАТА ---
-    function donatAuthor() {
-        // ВСТАВЬ СВОЮ ССЫЛКУ НИЖЕ (вместо google.com)
-        window.open("https://www.donationalerts.com/r/твой_ник", "_blank");
+    function handleDonatClick() {
+        // ЗАМЕНИ ЭТУ ССЫЛКУ НА СВОЮ (DonationAlerts или Kaspi)
+        window.open("https://www.donationalerts.com", "_blank");
         
-        // Награда: активируем VIP
         isVip = true;
         localStorage.setItem('ban_vip', 'true');
         updateDisplay();
-        alert("Спасибо за поддержку! VIP-статус (X2 клик) активирован! 💜");
+        alert("Спасибо! VIP-режим активирован (Клик x2)!");
     }
 
-    // Логика клика
     document.getElementById('banana').addEventListener('mousedown', (e) => {
         let gain = isVip ? clickPower * 2 : clickPower;
         score += gain;
@@ -179,28 +163,14 @@
         save();
     }, 1000);
 
-    function buyUpgrade() {
-        if (score >= upgradeCost) { score -= upgradeCost; clickPower++; upgradeCost = Math.round(upgradeCost * 1.8); updateDisplay(); }
-    }
-
-    function buyAuto() {
-        if (score >= autoCost) { score -= autoCost; autoPower++; autoCost = Math.round(autoCost * 1.9); updateDisplay(); }
-    }
-
-    function buySkin(id, price) {
-        if (score >= price) { score -= price; ownedSkins.push(id); updateDisplay(); }
-    }
-
-    function selectSkin(id) {
-        currentSkin = id;
-        document.getElementById('banana').className = skinClasses[id];
-        updateDisplay();
-    }
+    function buyUpgrade() { if (score >= upgradeCost) { score -= upgradeCost; clickPower++; upgradeCost = Math.round(upgradeCost * 1.8); updateDisplay(); } }
+    function buyAuto() { if (score >= autoCost) { score -= autoCost; autoPower++; autoCost = Math.round(autoCost * 1.9); updateDisplay(); } }
+    function buySkin(id, price) { if (score >= price) { score -= price; ownedSkins.push(id); updateDisplay(); } }
+    function selectSkin(id) { currentSkin = id; document.getElementById('banana').className = skinClasses[id]; updateDisplay(); }
 
     function createAnim(e, val) {
         const n = document.createElement('div');
-        n.className = 'click-num';
-        n.innerText = '+' + val;
+        n.className = 'click-num'; n.innerText = '+' + val;
         n.style.left = e.pageX + 'px'; n.style.top = e.pageY + 'px';
         document.body.appendChild(n);
         setTimeout(() => n.remove(), 800);
@@ -212,22 +182,15 @@
         document.getElementById('auto-power').innerText = autoPower;
         document.getElementById('u-cost-text').innerText = "Цена: " + upgradeCost;
         document.getElementById('a-cost-text').innerText = "Цена: " + autoCost;
-        
         document.getElementById('buy-upgrade').disabled = score < upgradeCost;
         document.getElementById('buy-auto').disabled = score < autoCost;
         document.getElementById('vip-tag').style.display = isVip ? 'block' : 'none';
-
         if (score >= 500) document.getElementById('epic-section').style.display = 'block';
 
         ownedSkins.forEach(id => {
             let btn = document.getElementById('btn-skin' + id);
-            if(btn) {
-                btn.innerText = "Выбрать";
-                btn.className = "btn-action btn-select";
-                btn.onclick = () => selectSkin(id);
-            }
+            if(btn) { btn.innerText = "Выбрать"; btn.className = "btn-action btn-select"; btn.onclick = () => selectSkin(id); }
         });
-
         for(let i=0; i<=4; i++) {
             let card = document.getElementById('card' + i);
             if(card) card.classList.remove('active');
@@ -236,14 +199,10 @@
     }
 
     function save() {
-        localStorage.setItem('b_score', score);
-        localStorage.setItem('b_click', clickPower);
-        localStorage.setItem('b_auto', autoPower);
-        localStorage.setItem('b_uCost', upgradeCost);
-        localStorage.setItem('b_aCost', autoCost);
-        localStorage.setItem('b_skins', JSON.stringify(ownedSkins));
+        localStorage.setItem('b_score', score); localStorage.setItem('b_click', clickPower);
+        localStorage.setItem('b_auto', autoPower); localStorage.setItem('b_uCost', upgradeCost);
+        localStorage.setItem('b_aCost', autoCost); localStorage.setItem('b_skins', JSON.stringify(ownedSkins));
     }
-
     updateDisplay();
 </script>
 </body>
