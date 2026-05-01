@@ -3,207 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Banana Clicker: Pro Gold</title>
-
+    <title>Banana Clicker: xeoni7 Edition</title>
+    
     <script src="https://omg10.com/4/10948390"></script>
 
     <style>
         :root {
-            --yellow: #f1c40f; --green: #2ecc71; --blue: #3498db; --purple: #9b59b6;
-            --dark: #121212; --card-bg: rgba(255, 255, 255, 0.08);
+            --yellow: #f1c40f; --purple: #9b59b6; --blue: #3498db; --green: #2ecc71;
+            --dark: #0a0a0a; --card: rgba(255,255,255,0.07);
         }
-
-        body { 
-            text-align: center; font-family: 'Segoe UI', sans-serif; background: var(--dark); 
-            background-image: radial-gradient(circle at top, #1e272e 0%, #121212 100%);
-            color: white; margin: 0; padding: 15px; user-select: none; touch-action: manipulation;
-        }
-
-        .header-stats { 
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            padding: 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .score { font-size: 46px; color: var(--yellow); font-weight: 900; display: block; }
-        .stat-line { display: flex; justify-content: space-around; margin-top: 10px; font-size: 13px; color: #888; }
-        .vip-badge { color: var(--purple); font-weight: bold; display: none; margin-top: 5px; text-shadow: 0 0 10px var(--purple); }
-
-        #banana-container { margin: 25px 0; position: relative; }
-        #banana { width: 190px; cursor: pointer; transition: 0.1s; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
-        #banana:active { transform: scale(0.85); }
-
-        .btn-ad { background: linear-gradient(135deg, #ff4757, #ff6b81); color: white; border: none; padding: 16px; border-radius: 18px; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; margin-bottom: 10px; }
-        .btn-donat { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; border: none; padding: 16px; border-radius: 18px; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3); }
-
-        .section-title { text-align: left; margin: 25px 0 10px 5px; font-size: 14px; color: #777; text-transform: uppercase; }
-        .shop-card { background: var(--card-bg); border-radius: 20px; padding: 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .skin-card { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 2px solid transparent; }
-        .skin-card.active { border-color: var(--yellow); }
-        .skin-preview { width: 55px; height: 55px; margin-bottom: 10px; }
+        body { 
+            text-align: center; font-family: 'Segoe UI', sans-serif; 
+            background: var(--dark); color: white; margin: 0; padding: 10px;
+            user-select: none; touch-action: manipulation;
+        }
 
-        .dark { filter: brightness(0.2); }
-        .rainbow { animation: rainbowAnim 3s infinite linear; }
-        .pixel { image-rendering: pixelated; filter: contrast(1.2); }
-        .choco { filter: sepia(1) saturate(1.5) brightness(0.5); }
-        @keyframes rainbowAnim { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+        /* Шапка */
+        .header {
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            padding: 20px; border-radius: 30px; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .score { font-size: 54px; color: var(--yellow); font-weight: 900; text-shadow: 0 0 20px rgba(241,196,15,0.4); }
+        .rank-tag { font-size: 10px; letter-spacing: 3px; color: #aaa; text-transform: uppercase; margin-bottom: 5px; }
+        .vip-status { color: var(--purple); font-weight: bold; font-size: 12px; display: none; animation: pulse 2s infinite; }
 
-        button.btn-action { padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; }
-        .btn-buy { background: var(--green); color: white; }
-        .btn-select { background: var(--blue); color: white; }
-        button:disabled { opacity: 0.3; cursor: not-allowed; }
+        /* Банан */
+        #banana-stage { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; }
+        #banana { 
+            width: 180px; cursor: pointer; transition: transform 0.05s;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+        #banana:active { transform: scale(0.8); }
 
-        #epic-section { display: none; padding: 15px; border: 2px dashed rgba(241, 196, 15, 0.3); border-radius: 25px; margin-top: 20px; }
-        .click-num { position: absolute; color: var(--yellow); font-weight: bold; font-size: 26px; pointer-events: none; animation: flyUp 0.8s forwards; }
-        @keyframes flyUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
+        /* Кнопки управления */
+        .btn-main {
+            width: 100%; max-width: 320px; padding: 18px; border: none; border-radius: 20px;
+            font-weight: 800; cursor: pointer; margin-bottom: 10px; transition: 0.3s;
+        }
+        .btn-donate { background: linear-gradient(45deg, #8e44ad, #9b59b6); color: white; box-shadow: 0 0 15px rgba(155, 89, 182, 0.5); }
+        .btn-ad { background: #ff4757; color: white; font-size: 13px; }
 
-        footer { margin-top: 40px; padding-bottom: 30px; font-size: 11px; color: #444; }
+        /* Магазин скинов */
+        .shop-title { text-align: left; padding-left: 15px; font-size: 14px; color: #555; margin: 20px 0 10px; }
+        .skin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 10px 100px; }
+        .skin-card { 
+            background: var(--card); padding: 15px; border-radius: 20px; 
+            border: 2px solid transparent; transition: 0.2s;
+        }
+        .skin-card.active { border-color: var(--yellow); background: rgba(241,196,15,0.1); }
+        .skin-card img { width: 50px; height: 50px; }
+        .price-tag { display: block; font-size: 10px; margin-top: 5px; color: var(--green); }
+
+        /* Эффекты скинов */
+        .s-ice { filter: hue-rotate(180deg) brightness(1.2) drop-shadow(0 0 5px #3498db); }
+        .s-fire { filter: hue-rotate(330deg) saturate(2) drop-shadow(0 0 8px #e67e22); }
+        .s-gold { filter: brightness(1.1) sepia(1) saturate(10) drop-shadow(0 0 10px #f1c40f); }
+        .s-neon { filter: hue-rotate(290deg) saturate(3) drop-shadow(0 0 10px #ff00ff); }
+        .s-rainbow { animation: rainbow 4s infinite linear; }
+        .s-pixel { image-rendering: pixelated; transform: scale(1.1); }
+        @keyframes rainbow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* Анимация +1 */
+        .floating-num {
+            position: absolute; color: var(--yellow); font-weight: bold; font-size: 24px;
+            pointer-events: none; animation: floatUp 0.7s ease-out forwards;
+        }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <div class="header-stats">
-        <div id="player-rank" style="font-size: 11px; color: #888;">ЗВАНИЕ: НОВИЧОК</div>
-        <div class="vip-badge" id="vip-tag">★ VIP-СТАТУС: ВКЛЮЧЕН ★</div>
-        <span class="score"><span id="score">0</span> 🍌</span>
-        <div class="stat-line">
-            <div>Клик: <b id="click-power">1</b></div>
-            <div>Авто: <b id="auto-power">0</b>/с</div>
+    <div class="header">
+        <div class="rank-tag" id="rank">Новичок</div>
+        <div class="vip-status" id="vip-label">★ VIP xeoni7 ★</div>
+        <div class="score"><span id="score">0</span> 🍌</div>
+        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+            Клик: <span id="click-val">1</span>
         </div>
     </div>
 
-    <div id="banana-container">
-        <button class="btn-ad" onclick="handleAdClick()">📺 БОНУС +50 🍌 (РЕКЛАМА)</button><br>
-        <button class="btn-donat" onclick="handleDonatClick()">💜 ПОДДЕРЖАТЬ / ДОНАТ</button><br>
-        <img id="banana" src="https://img.icons8.com/emoji/256/banana-emoji.png" alt="Banana">
+    <div id="banana-stage">
+        <img id="banana" src="https://img.icons8.com/emoji/256/banana-emoji.png" onclick="clickBanana(event)">
     </div>
 
-    <div class="section-title">Прокачка</div>
-    <div class="shop-card">
-        <div style="text-align: left;"><b>Сила клика</b><br><small id="u-cost-text">Цена: 10</small></div>
-        <button class="btn-action btn-buy" id="buy-upgrade" onclick="buyUpgrade()">+1 Клик</button>
-    </div>
-    <div class="shop-card">
-        <div style="text-align: left;"><b>Ферма</b><br><small id="a-cost-text">Цена: 50</small></div>
-        <button class="btn-action btn-buy" id="buy-auto" onclick="buyAuto()">+1 Авто</button>
-    </div>
+    <button class="btn-main btn-donate" onclick="openDonate()">💜 ПОДДЕРЖАТЬ / ДОНАТ (VIP x2)</button>
+    <button class="btn-main btn-ad" onclick="watchAd()">📺 БОНУС +100 🍌 (РЕКЛАМА)</button>
 
-    <div class="section-title">Скины</div>
-    <div class="grid">
-        <div class="skin-card active" id="card0">
-            <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview">
-            <button class="btn-action btn-select" onclick="selectSkin(0)">Выбрать</button>
-        </div>
-        <div class="skin-card" id="card1">
-            <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview dark">
-            <button class="btn-action btn-buy" id="btn-skin1" onclick="buySkin(1, 150)">150</button>
-        </div>
-    </div>
-
-    <div id="epic-section">
-        <div class="section-title" style="color:var(--yellow); text-align: center;">🔥 ЭПИЧЕСКИЕ (ОТ 500 🍌) 🔥</div>
-        <div class="grid">
-            <div class="skin-card" id="card2">
-                <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview rainbow">
-                <button class="btn-action btn-buy" id="btn-skin2" onclick="buySkin(2, 600)">600</button>
-            </div>
-            <div class="skin-card" id="card3">
-                <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview pixel">
-                <button class="btn-action btn-buy" id="btn-skin3" onclick="buySkin(3, 1000)">1000</button>
-            </div>
-            <div class="skin-card" id="card4">
-                <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="skin-preview choco">
-                <button class="btn-action btn-buy" id="btn-skin4" onclick="buySkin(4, 1500)">1500</button>
-            </div>
-        </div>
-    </div>
-
-    <footer>Created with Love</footer>
+    <div class="shop-title">МАГАЗИН СКИНОВ</div>
+    <div class="skin-grid" id="shop"></div>
 
 <script>
-    let score = parseFloat(localStorage.getItem('b_score')) || 0;
-    let clickPower = parseInt(localStorage.getItem('b_click')) || 1;
-    let autoPower = parseInt(localStorage.getItem('b_auto')) || 0;
-    let upgradeCost = parseInt(localStorage.getItem('b_uCost')) || 10;
-    let autoCost = parseInt(localStorage.getItem('b_aCost')) || 50;
-    let ownedSkins = JSON.parse(localStorage.getItem('b_skins')) || [0];
-    let isVip = localStorage.getItem('b_vip') === 'true';
-    let currentSkin = 0;
+    // ТВОЯ ССЫЛКА ПОЛНОСТЬЮ НАСТРОЕНА
+    const MY_DONATE_LINK = "https://www.donationalerts.com/r/xeoni7";
 
-    const skinClasses = ['', 'dark', 'rainbow', 'pixel', 'choco'];
-
-    function handleAdClick() {
-        // Твоя ссылка Monetag
-        window.open("https://omg10.com/4/10948390", "_blank");
-        score += 50;
-        updateDisplay();
+    // СИСТЕМА УМНОГО СОХРАНЕНИЯ
+    function setSave(key, val) {
+        localStorage.setItem(key, val);
+        let d = new Date(); d.setTime(d.getTime() + (365*24*60*60*1000));
+        document.cookie = key + "=" + val + "; expires=" + d.toUTCString() + "; path=/";
     }
 
-    function handleDonatClick() {
-        // ЗАМЕНИ ЭТУ ССЫЛКУ НА СВОЮ (DonationAlerts или Kaspi)
-        window.open("https://www.donationalerts.com", "_blank");
-        
-        isVip = true;
-        localStorage.setItem('ban_vip', 'true');
-        updateDisplay();
-        alert("Спасибо! VIP-режим активирован (Клик x2)!");
-    }
-
-    document.getElementById('banana').addEventListener('mousedown', (e) => {
-        let gain = isVip ? clickPower * 2 : clickPower;
-        score += gain;
-        createAnim(e, gain);
-        updateDisplay();
-    });
-
-    setInterval(() => {
-        if (autoPower > 0) { score += autoPower; updateDisplay(); }
-        save();
-    }, 1000);
-
-    function buyUpgrade() { if (score >= upgradeCost) { score -= upgradeCost; clickPower++; upgradeCost = Math.round(upgradeCost * 1.8); updateDisplay(); } }
-    function buyAuto() { if (score >= autoCost) { score -= autoCost; autoPower++; autoCost = Math.round(autoCost * 1.9); updateDisplay(); } }
-    function buySkin(id, price) { if (score >= price) { score -= price; ownedSkins.push(id); updateDisplay(); } }
-    function selectSkin(id) { currentSkin = id; document.getElementById('banana').className = skinClasses[id]; updateDisplay(); }
-
-    function createAnim(e, val) {
-        const n = document.createElement('div');
-        n.className = 'click-num'; n.innerText = '+' + val;
-        n.style.left = e.pageX + 'px'; n.style.top = e.pageY + 'px';
-        document.body.appendChild(n);
-        setTimeout(() => n.remove(), 800);
-    }
-
-    function updateDisplay() {
-        document.getElementById('score').innerText = Math.floor(score);
-        document.getElementById('click-power').innerText = isVip ? (clickPower + " (x2)") : clickPower;
-        document.getElementById('auto-power').innerText = autoPower;
-        document.getElementById('u-cost-text').innerText = "Цена: " + upgradeCost;
-        document.getElementById('a-cost-text').innerText = "Цена: " + autoCost;
-        document.getElementById('buy-upgrade').disabled = score < upgradeCost;
-        document.getElementById('buy-auto').disabled = score < autoCost;
-        document.getElementById('vip-tag').style.display = isVip ? 'block' : 'none';
-        if (score >= 500) document.getElementById('epic-section').style.display = 'block';
-
-        ownedSkins.forEach(id => {
-            let btn = document.getElementById('btn-skin' + id);
-            if(btn) { btn.innerText = "Выбрать"; btn.className = "btn-action btn-select"; btn.onclick = () => selectSkin(id); }
-        });
-        for(let i=0; i<=4; i++) {
-            let card = document.getElementById('card' + i);
-            if(card) card.classList.remove('active');
+    function getSave(key) {
+        let res = localStorage.getItem(key);
+        if (res !== null) return res;
+        let nameEQ = key + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
-        document.getElementById('card' + currentSkin).classList.add('active');
+        return null;
     }
 
-    function save() {
-        localStorage.setItem('b_score', score); localStorage.setItem('b_click', clickPower);
-        localStorage.setItem('b_auto', autoPower); localStorage.setItem('b_uCost', upgradeCost);
-        localStorage.setItem('b_aCost', autoCost); localStorage.setItem('b_skins', JSON.stringify(ownedSkins));
+    let score = parseFloat(getSave('ban_score')) || 0;
+    let isVip = getSave('ban_vip') === 'true';
+    let ownedSkins = JSON.parse(getSave('ban_owned')) || [0];
+    let activeSkin = parseInt(getSave('ban_active')) || 0;
+
+    const skins = [
+        { n: "Классик", p: 0, c: "" },
+        { n: "Лёд", p: 500, c: "s-ice" },
+        { n: "Пиксель", p: 1500, c: "s-pixel" },
+        { n: "Огонь", p: 5000, c: "s-fire" },
+        { n: "Неон", p: 15000, c: "s-neon" },
+        { n: "Золото", p: 50000, c: "s-gold" },
+        { n: "Радуга", p: 100000, c: "s-rainbow" }
+    ];
+
+    function clickBanana(e) {
+        let power = isVip ? 2 : 1;
+        score += power;
+        
+        let num = document.createElement('div');
+        num.className = 'floating-num';
+        num.innerText = '+' + power;
+        num.style.left = e.pageX + 'px';
+        num.style.top = e.pageY + 'px';
+        document.body.appendChild(num);
+        setTimeout(() => num.remove(), 700);
+
+        render();
     }
-    updateDisplay();
+
+    function openDonate() {
+        window.open(MY_DONATE_LINK, "_blank");
+        isVip = true;
+        setSave('ban_vip', 'true');
+        render();
+        alert("Спасибо за поддержку! VIP-статус x2 активирован.");
+    }
+
+    function watchAd() {
+        window.open("https://omg10.com/4/10948390", "_blank");
+        score += 100;
+        render();
+    }
+
+    function buySkin(id) {
+        if (ownedSkins.includes(id)) {
+            activeSkin = id;
+        } else if (score >= skins[id].p) {
+            score -= skins[id].p;
+            ownedSkins.push(id);
+            activeSkin = id;
+        }
+        setSave('ban_owned', JSON.stringify(ownedSkins));
+        setSave('ban_active', activeSkin);
+        render();
+    }
+
+    function render() {
+        document.getElementById('score').innerText = Math.floor(score);
+        document.getElementById('banana').className = skins[activeSkin].c;
+        document.getElementById('click-val').innerText = isVip ? "2 (VIP)" : "1";
+        document.getElementById('vip-label').style.display = isVip ? 'block' : 'none';
+
+        let r = "Новичок";
+        if(score > 5000) r = "Банановый Барон";
+        if(score > 50000) r = "Магнат xeoni7";
+        document.getElementById('rank').innerText = r;
+
+        let html = '';
+        skins.forEach((s, i) => {
+            let owned = ownedSkins.includes(i);
+            let active = activeSkin === i;
+            html += `
+                <div class="skin-card ${active ? 'active' : ''}" onclick="buySkin(${i})">
+                    <img src="https://img.icons8.com/emoji/256/banana-emoji.png" class="${s.c}">
+                    <span class="price-tag">${owned ? 'ВЫБРАТЬ' : s.p + ' 🍌'}</span>
+                </div>
+            `;
+        });
+        document.getElementById('shop').innerHTML = html;
+        setSave('ban_score', score);
+    }
+
+    setInterval(() => setSave('ban_score', score), 1000);
+    render();
 </script>
 </body>
 </html>
