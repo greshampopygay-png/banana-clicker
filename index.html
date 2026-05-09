@@ -6,144 +6,161 @@
     <title>Banana Empire: xeoni7 Official</title>
     <script src="https://omg10.com/4/10948390"></script>
     <style>
-        :root{--y:#f1c40f;--p:#9b59b6;--g:#2ecc71;--d:#0f0f0f;--c:rgba(255,255,255,0.06)}
-        *{box-sizing:border-box}
-        body{text-align:center;font-family:'Segoe UI',sans-serif;background:var(--d);color:white;margin:0;padding:15px;user-select:none;touch-action:manipulation;overflow-x:hidden}
-        .stats-box{background:var(--c);padding:20px;border-radius:25px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.1)}
-        .score-val{font-size:52px;color:var(--y);font-weight:900;display:block}
-        .sub-stats{font-size:13px;color:#888;margin-top:5px}
-        .vip-badge{color:var(--p);font-weight:bold;font-size:14px;display:none;margin-bottom:5px}
-        #game-area{height:220px;display:flex;align-items:center;justify-content:center;position:relative}
-        #banana{width:170px;cursor:pointer;transition:transform 0.1s;z-index:5}
-        #banana:active{transform:scale(0.85)!important}
-        .btn{width:100%;max-width:340px;padding:18px;border:none;border-radius:20px;font-weight:800;cursor:pointer;margin-bottom:12px;font-size:15px;transition:0.3s}
-        .btn-don{background:linear-gradient(45deg,#8e44ad,#9b59b6);color:white;box-shadow:0 4px 15px rgba(155,89,182,0.4)}
-        .btn-ads{background:#ff4757;color:white}
-        .chest-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid var(--y);border-radius:25px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden}
-        .chest-box::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(241,196,15,0.1),transparent);animation:shine 3s infinite}
-        @keyframes shine{0%{left:-100%}100%{left:100%}}
-        .chest-title{font-size:13px;color:var(--y);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-        .chest-emoji{font-size:60px;display:block;animation:cbob 2s infinite ease-in-out;transition:transform 0.1s}
-        .chest-emoji.opened{animation:none;filter:grayscale(0.6) brightness(0.6)}
-        @keyframes cbob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
-        .chest-timer{font-size:12px;color:#888;margin-top:8px}
-        .chest-timer span{color:var(--y);font-weight:bold}
-        .chest-btn{background:linear-gradient(45deg,#f39c12,var(--y));color:#0f0f0f;border:none;border-radius:15px;padding:12px 30px;font-weight:900;font-size:16px;cursor:pointer;margin-top:10px;animation:pbtn 1.5s infinite alternate}
-        .chest-btn:disabled{background:#333;color:#666;animation:none;cursor:default}
-        @keyframes pbtn{0%{box-shadow:0 0 10px #f1c40f44}100%{box-shadow:0 0 25px #f1c40f99}}
-        .reward-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:1000;display:none;align-items:center;justify-content:center;flex-direction:column}
-        .reward-overlay.show{display:flex;animation:fi 0.3s}
-        @keyframes fi{from{opacity:0}to{opacity:1}}
-        .reward-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border:3px solid var(--y);border-radius:30px;padding:30px;text-align:center;max-width:300px;width:90%;animation:pi 0.4s}
-        @keyframes pi{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
-        .reward-big{font-size:70px;display:block;margin-bottom:10px;animation:ro 0.6s forwards}
-        @keyframes ro{0%{transform:scale(1)}30%{transform:scale(1.4) rotate(-10deg)}60%{transform:scale(1.4) rotate(10deg)}100%{transform:scale(1)}}
-        .reward-title{font-size:20px;font-weight:900;margin:8px 0}
-        .reward-rarity{font-size:13px;margin-bottom:12px;font-weight:bold}
-        .reward-items{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
-        .reward-item{background:rgba(255,255,255,0.1);border-radius:12px;padding:8px 14px;font-size:14px;font-weight:bold}
-        .reward-close{background:linear-gradient(45deg,#f39c12,var(--y));color:#0f0f0f;border:none;border-radius:15px;padding:14px 40px;font-weight:900;font-size:16px;cursor:pointer;margin-top:10px}
-        .title{text-align:left;padding:10px 0 10px 10px;font-size:14px;color:#555;text-transform:uppercase;letter-spacing:1px}
-        .upg-card{background:var(--c);margin-bottom:10px;padding:15px;border-radius:20px;display:flex;justify-content:space-between;align-items:center}
-        .upg-name{text-align:left}
-        .upg-name b{display:block;font-size:17px}
-        .upg-name i{font-size:12px;color:var(--g);font-style:normal;font-weight:bold}
-        .buy-btn{background:#252525;color:white;border:1px solid #444;padding:12px 20px;border-radius:15px;font-weight:bold;cursor:pointer}
-        .skin-tabs{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-        .skin-tabs::-webkit-scrollbar{display:none}
-        .skin-tab{padding:8px 16px;border-radius:30px;border:none;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;background:#1a1a1a;color:#888}
-        .skin-tab.active{color:#0f0f0f}
-        .skin-tab[data-cat="all"].active{background:#f1c40f}
-        .skin-tab[data-cat="common"].active{background:#aaa}
-        .skin-tab[data-cat="rare"].active{background:#4fc3f7}
-        .skin-tab[data-cat="epic"].active{background:#ab47bc}
-        .skin-tab[data-cat="legendary"].active{background:linear-gradient(90deg,#f1c40f,#e67e22,#e74c3c);color:white}
-        .skin-tab[data-cat="special"].active{background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb);color:#0f0f0f}
-        .skin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:5px;padding-bottom:40px}
-        .skin-item{background:var(--c);padding:12px;border-radius:20px;border:2px solid transparent;cursor:pointer;transition:0.2s}
-        .skin-item.active{border-color:var(--y);background:rgba(241,196,15,0.1)}
-        .skin-img{width:50px;height:50px;margin-bottom:5px}
-        .skin-price{font-size:10px;color:#aaa;font-weight:bold}
-        .skin-label{font-size:12px;color:#ddd;font-weight:600;margin-bottom:3px}
-        .skin-rarity{font-size:9px;margin-bottom:4px}
-        .skin-rarity.common{color:#aaa}
-        .skin-rarity.rare{color:#4fc3f7}
-        .skin-rarity.epic{color:#ab47bc}
-        .skin-rarity.legendary{background:linear-gradient(90deg,#f1c40f,#e67e22);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
-        .skin-rarity.special{background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
-        .skin-classic{filter:none;animation:aBob 2s infinite ease-in-out}
-        .skin-green{filter:hue-rotate(60deg) saturate(1.5) brightness(1.1);animation:aBob 2.5s infinite ease-in-out}
-        .skin-overripe{filter:hue-rotate(25deg) saturate(0.5) brightness(0.45);animation:aWobble 2s infinite ease-in-out}
-        .skin-snow{filter:grayscale(1) brightness(3.5) saturate(0) drop-shadow(0 0 12px #fff);animation:aFloat 3s infinite ease-in-out}
-        .skin-coal{filter:grayscale(1) brightness(0.2);animation:aShake 0.4s infinite}
-        .skin-night{filter:hue-rotate(210deg) saturate(3) brightness(0.5) drop-shadow(0 0 10px #1a237e);animation:aNight 2s infinite alternate}
-        .skin-amethyst{filter:hue-rotate(260deg) saturate(4) brightness(1.2) drop-shadow(0 0 8px #9b59b6);animation:aSpin 5s infinite linear}
-        .skin-sea{filter:hue-rotate(155deg) saturate(3) brightness(1.1) drop-shadow(0 0 8px #00bcd4);animation:aWave 2s infinite ease-in-out}
-        .skin-forest{filter:hue-rotate(90deg) saturate(2.5) brightness(0.65);animation:aBob 2s infinite ease-in-out}
-        .skin-steel{filter:hue-rotate(185deg) saturate(0.8) brightness(0.9) grayscale(0.4);animation:aVibrate 0.1s infinite}
-        .skin-raspberry{filter:hue-rotate(300deg) saturate(4) brightness(1.1);animation:aHeartbeat 0.9s infinite}
-        .skin-bronze{filter:hue-rotate(10deg) sepia(1) saturate(4) brightness(0.75) drop-shadow(0 0 8px #cd7f32);animation:aMetalGlow 2s infinite alternate}
-        .skin-silver{filter:hue-rotate(185deg) saturate(0.3) brightness(2) contrast(1.4) drop-shadow(0 0 12px #8888ff);animation:aFlip 4s infinite ease-in-out}
-        .skin-gold{filter:sepia(1) saturate(15) brightness(1.3) contrast(1.3) drop-shadow(0 0 14px #ffcc00);animation:aGoldPulse 1.5s infinite alternate}
-        .skin-emerald{filter:hue-rotate(110deg) saturate(5) brightness(1.1) drop-shadow(0 0 12px #2ecc71);animation:aEmerald 1.8s infinite alternate}
-        .skin-ruby{filter:hue-rotate(330deg) saturate(5) brightness(0.85) drop-shadow(0 0 12px #e74c3c);animation:aHeartbeat 0.7s infinite}
-        .skin-toxic{filter:hue-rotate(75deg) saturate(6) brightness(1.4) drop-shadow(0 0 14px #adff2f);animation:aToxic 1s infinite alternate}
-        .skin-rainbow{animation:aRainbow 2.5s infinite linear}
-        .skin-fire{filter:hue-rotate(5deg) saturate(5) brightness(1.1) drop-shadow(0 0 15px #e67e22);animation:aFire 1s infinite alternate}
-        .skin-cosmos{filter:hue-rotate(240deg) saturate(3) brightness(0.4) drop-shadow(0 0 20px #9b59b6);animation:aCosmos 2s infinite alternate}
-        .skin-diamond{filter:hue-rotate(175deg) saturate(2) brightness(2.2) drop-shadow(0 0 20px #85c1e9);animation:aDiamond 1.8s infinite alternate}
-        .skin-shadow{filter:grayscale(1) brightness(0.05);animation:aShadow 3s infinite alternate}
-        .skin-giant{filter:drop-shadow(0 0 25px #f1c40f) brightness(1.3);animation:aGiant 1.5s infinite alternate}
-        @keyframes aBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
-        @keyframes aWobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
-        @keyframes aFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-18px) rotate(15deg)}}
-        @keyframes aShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-        @keyframes aHeartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
-        @keyframes aSpin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-        @keyframes aWave{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
-        @keyframes aVibrate{0%,100%{transform:translate(0,0)}50%{transform:translate(3px,2px)}}
-        @keyframes aNight{0%{filter:hue-rotate(210deg) saturate(3) brightness(0.4) drop-shadow(0 0 5px #1a237e)}100%{filter:hue-rotate(220deg) saturate(3) brightness(0.7) drop-shadow(0 0 20px #3949ab)}}
-        @keyframes aMetalGlow{0%{filter:hue-rotate(10deg) sepia(1) saturate(4) brightness(0.75) drop-shadow(0 0 4px #cd7f32)}100%{filter:hue-rotate(10deg) sepia(1) saturate(4) brightness(1.0) drop-shadow(0 0 18px #cd7f32)}}
-        @keyframes aFlip{0%,100%{transform:rotateY(0) scale(1)}50%{transform:rotateY(180deg) scale(1.1)}}
-        @keyframes aGoldPulse{0%{filter:sepia(1) saturate(15) brightness(1.1) drop-shadow(0 0 6px #ffcc00);transform:scale(1)}100%{filter:sepia(1) saturate(20) brightness(1.5) drop-shadow(0 0 22px #ffcc00);transform:scale(1.08)}}
-        @keyframes aEmerald{0%{filter:hue-rotate(110deg) saturate(5) brightness(0.9) drop-shadow(0 0 4px #2ecc71)}100%{filter:hue-rotate(110deg) saturate(6) brightness(1.3) drop-shadow(0 0 22px #2ecc71)}}
-        @keyframes aToxic{0%{filter:hue-rotate(75deg) saturate(6) brightness(1.2) drop-shadow(0 0 6px #adff2f);transform:scale(1)}100%{filter:hue-rotate(85deg) saturate(8) brightness(1.6) drop-shadow(0 0 22px #adff2f);transform:scale(1.08)}}
-        @keyframes aRainbow{0%{filter:hue-rotate(0deg) saturate(3) brightness(1.1)}100%{filter:hue-rotate(360deg) saturate(3) brightness(1.1)}}
-        @keyframes aFire{0%{filter:hue-rotate(5deg) saturate(5) brightness(1.0) drop-shadow(0 0 8px #e67e22);transform:scale(1) rotate(-2deg)}100%{filter:hue-rotate(15deg) saturate(6) brightness(1.3) drop-shadow(0 0 22px #ff4500);transform:scale(1.1) rotate(2deg)}}
-        @keyframes aCosmos{0%{filter:hue-rotate(240deg) saturate(3) brightness(0.35) drop-shadow(0 0 10px #6c3483)}100%{filter:hue-rotate(260deg) saturate(4) brightness(0.55) drop-shadow(0 0 28px #a569bd)}}
-        @keyframes aDiamond{0%{filter:hue-rotate(175deg) saturate(2) brightness(1.8) drop-shadow(0 0 10px #85c1e9)}100%{filter:hue-rotate(190deg) saturate(3) brightness(2.6) drop-shadow(0 0 28px #aed6f1)}}
-        @keyframes aShadow{0%{filter:grayscale(1) brightness(0.05)}100%{filter:grayscale(1) brightness(0.15) drop-shadow(0 0 22px #333)}}
-        @keyframes aGiant{0%{transform:scale(1.2) rotate(-3deg);filter:drop-shadow(0 0 15px #f1c40f) brightness(1.2)}100%{transform:scale(1.35) rotate(3deg);filter:drop-shadow(0 0 35px #f1c40f) brightness(1.5)}}
-        .float{position:fixed;color:var(--y);font-weight:bold;font-size:28px;pointer-events:none;animation:floatUp 0.8s forwards;z-index:999}
-        @keyframes floatUp{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-120px);opacity:0}}
+        :root { --yellow:#f1c40f; --purple:#9b59b6; --green:#2ecc71; --dark:#0f0f0f; --card:rgba(255,255,255,0.06); }
+        * { box-sizing:border-box; }
+        body { text-align:center; font-family:'Segoe UI',sans-serif; background:var(--dark); color:white; margin:0; padding:15px; user-select:none; touch-action:manipulation; overflow-x:hidden; }
+        .stats-box { background:var(--card); padding:20px; border-radius:25px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.1); }
+        .score-val { font-size:52px; color:var(--yellow); font-weight:900; display:block; }
+        .sub-stats { font-size:13px; color:#888; margin-top:5px; }
+        .vip-badge { color:var(--purple); font-weight:bold; font-size:14px; display:none; margin-bottom:5px; }
+        #game-area { height:220px; display:flex; align-items:center; justify-content:center; position:relative; }
+        #banana { width:170px; cursor:pointer; transition:transform 0.1s; z-index:5; }
+        #banana:active { transform:scale(0.85) !important; }
+        .btn { width:100%; max-width:340px; padding:18px; border:none; border-radius:20px; font-weight:800; cursor:pointer; margin-bottom:12px; font-size:15px; transition:0.3s; }
+        .btn-don { background:linear-gradient(45deg,#8e44ad,#9b59b6); color:white; box-shadow:0 4px 15px rgba(155,89,182,0.4); }
+        .btn-ads { background:#ff4757; color:white; }
+
+        /* СУНДУК */
+        .chest-box { background:linear-gradient(135deg,#1a1a2e,#16213e); border:2px solid #f1c40f; border-radius:25px; padding:20px; margin-bottom:20px; position:relative; overflow:hidden; }
+        .chest-box::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(241,196,15,0.1),transparent); animation:chestShine 3s infinite; }
+        @keyframes chestShine { 0%{left:-100%} 100%{left:100%} }
+        .chest-title { font-size:13px; color:#f1c40f; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+        .chest-emoji { font-size:60px; cursor:pointer; display:block; animation:chestBob 2s infinite ease-in-out; transition:transform 0.1s; }
+        .chest-emoji.opened { animation:none; filter:grayscale(0.6) brightness(0.6); }
+        @keyframes chestBob { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-8px) rotate(3deg)} }
+        .chest-timer { font-size:12px; color:#888; margin-top:8px; }
+        .chest-timer span { color:#f1c40f; font-weight:bold; }
+        .chest-btn { background:linear-gradient(45deg,#f39c12,#f1c40f); color:#0f0f0f; border:none; border-radius:15px; padding:12px 30px; font-weight:900; font-size:16px; cursor:pointer; margin-top:10px; animation:pulsBtn 1.5s infinite alternate; }
+        .chest-btn:disabled { background:#333; color:#666; animation:none; cursor:default; }
+        @keyframes pulsBtn { 0%{box-shadow:0 0 10px #f1c40f44} 100%{box-shadow:0 0 25px #f1c40f99} }
+
+        /* ПОПАП */
+        .reward-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); z-index:1000; display:none; align-items:center; justify-content:center; flex-direction:column; }
+        .reward-overlay.show { display:flex; animation:fadeIn 0.3s; }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        .reward-box { background:linear-gradient(135deg,#1a1a2e,#16213e); border:3px solid #f1c40f; border-radius:30px; padding:30px; text-align:center; max-width:300px; width:90%; animation:popIn 0.4s; }
+        @keyframes popIn { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
+        .reward-chest-big { font-size:70px; animation:chestOpenAnim 0.6s forwards; display:block; margin-bottom:10px; }
+        @keyframes chestOpenAnim { 0%{transform:scale(1)} 30%{transform:scale(1.4) rotate(-10deg)} 60%{transform:scale(1.4) rotate(10deg)} 100%{transform:scale(1) rotate(0)} }
+        .reward-title { font-size:20px; font-weight:900; margin:8px 0; }
+        .reward-rarity { font-size:13px; margin-bottom:12px; font-weight:bold; }
+        .reward-items { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:12px 0; }
+        .reward-item { background:rgba(255,255,255,0.1); border-radius:12px; padding:8px 14px; font-size:14px; font-weight:bold; }
+        .reward-close { background:linear-gradient(45deg,#f39c12,#f1c40f); color:#0f0f0f; border:none; border-radius:15px; padding:14px 40px; font-weight:900; font-size:16px; cursor:pointer; margin-top:10px; }
+
+        .title { text-align:left; padding:10px 0 10px 10px; font-size:14px; color:#555; text-transform:uppercase; letter-spacing:1px; }
+        .upg-card { background:var(--card); margin-bottom:10px; padding:15px; border-radius:20px; display:flex; justify-content:space-between; align-items:center; }
+        .upg-name { text-align:left; }
+        .upg-name b { display:block; font-size:17px; }
+        .upg-name i { font-size:12px; color:var(--green); font-style:normal; font-weight:bold; }
+        .buy-btn { background:#252525; color:white; border:1px solid #444; padding:12px 20px; border-radius:15px; font-weight:bold; cursor:pointer; }
+        .skin-tabs { display:flex; gap:8px; margin-bottom:12px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+        .skin-tabs::-webkit-scrollbar { display:none; }
+        .skin-tab { padding:8px 16px; border-radius:30px; border:none; font-weight:700; font-size:12px; cursor:pointer; white-space:nowrap; background:#1a1a1a; color:#888; }
+        .skin-tab.active { color:#0f0f0f; }
+        .skin-tab[data-cat="all"].active { background:#f1c40f; }
+        .skin-tab[data-cat="common"].active { background:#aaa; }
+        .skin-tab[data-cat="rare"].active { background:#4fc3f7; }
+        .skin-tab[data-cat="epic"].active { background:#ab47bc; }
+        .skin-tab[data-cat="legendary"].active { background:linear-gradient(90deg,#f1c40f,#e67e22,#e74c3c); color:white; }
+        .skin-tab[data-cat="special"].active { background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb); color:#0f0f0f; }
+        .skin-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:5px; padding-bottom:40px; }
+        .skin-item { background:var(--card); padding:12px; border-radius:20px; border:2px solid transparent; cursor:pointer; transition:0.2s; }
+        .skin-item.active { border-color:var(--yellow); background:rgba(241,196,15,0.1); }
+        .skin-img { width:50px; height:50px; margin-bottom:5px; }
+        .skin-price { font-size:10px; color:#aaa; font-weight:bold; }
+        .skin-label { font-size:12px; color:#ddd; font-weight:600; margin-bottom:3px; }
+        .skin-rarity { font-size:9px; margin-bottom:4px; }
+        .skin-rarity.common { color:#aaa; }
+        .skin-rarity.rare { color:#4fc3f7; }
+        .skin-rarity.epic { color:#ab47bc; }
+        .skin-rarity.legendary { background:linear-gradient(90deg,#f1c40f,#e67e22); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; }
+        .skin-rarity.special { background:linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; }
+
+        /* СКИНЫ */
+        .skin-classic   { filter:none; animation:aBob 2s infinite ease-in-out; }
+        .skin-green     { filter:hue-rotate(60deg) saturate(1.5) brightness(1.1); animation:aBob 2.5s infinite ease-in-out; }
+        .skin-overripe  { filter:hue-rotate(25deg) saturate(0.5) brightness(0.45); animation:aWobble 2s infinite ease-in-out; }
+        .skin-snow      { filter:grayscale(1) brightness(3.5) saturate(0) drop-shadow(0 0 12px #fff); animation:aFloat 3s infinite ease-in-out; }
+        .skin-coal      { filter:grayscale(1) brightness(0.2); animation:aShake 0.4s infinite; }
+        .skin-night     { filter:hue-rotate(210deg) saturate(3) brightness(0.5) drop-shadow(0 0 10px #1a237e); animation:aNight 2s infinite alternate; }
+        .skin-amethyst  { filter:hue-rotate(260deg) saturate(4) brightness(1.2) drop-shadow(0 0 8px #9b59b6); animation:aSpin 5s infinite linear; }
+        .skin-sea       { filter:hue-rotate(155deg) saturate(3) brightness(1.1) drop-shadow(0 0 8px #00bcd4); animation:aWave 2s infinite ease-in-out; }
+        .skin-forest    { filter:hue-rotate(90deg) saturate(2.5) brightness(0.65); animation:aBob 2s infinite ease-in-out; }
+        .skin-steel     { filter:hue-rotate(185deg) saturate(0.8) brightness(0.9) grayscale(0.4); animation:aVibrate 0.1s infinite; }
+        .skin-raspberry { filter:hue-rotate(300deg) saturate(4) brightness(1.1); animation:aHeartbeat 0.9s infinite; }
+        .skin-bronze    { filter:hue-rotate(10deg) sepia(1) saturate(4) brightness(0.75) drop-shadow(0 0 8px #cd7f32); animation:aMetalGlow 2s infinite alternate; }
+        .skin-silver    { filter:hue-rotate(185deg) saturate(0.3) brightness(2) contrast(1.4) drop-shadow(0 0 12px #8888ff); animation:aFlip 4s infinite ease-in-out; }
+        .skin-gold      { filter:sepia(1) saturate(15) brightness(1.3) contrast(1.3) drop-shadow(0 0 14px #ffcc00); animation:aGoldPulse 1.5s infinite alternate; }
+        .skin-emerald   { filter:hue-rotate(110deg) saturate(5) brightness(1.1) drop-shadow(0 0 12px #2ecc71); animation:aEmerald 1.8s infinite alternate; }
+        .skin-ruby      { filter:hue-rotate(330deg) saturate(5) brightness(0.85) drop-shadow(0 0 12px #e74c3c); animation:aHeartbeat 0.7s infinite; }
+        .skin-toxic     { filter:hue-rotate(75deg) saturate(6) brightness(1.4) drop-shadow(0 0 14px #adff2f); animation:aToxic 1s infinite alternate; }
+        .skin-rainbow   { animation:aRainbow 2.5s infinite linear; }
+        .skin-fire      { filter:hue-rotate(5deg) saturate(5) brightness(1.1) drop-shadow(0 0 15px #e67e22); animation:aFire 1s infinite alternate; }
+        .skin-cosmos    { filter:hue-rotate(240deg) saturate(3) brightness(0.4) drop-shadow(0 0 20px #9b59b6); animation:aCosmos 2s infinite alternate; }
+        .skin-diamond   { filter:hue-rotate(175deg) saturate(2) brightness(2.2) drop-shadow(0 0 20px #85c1e9); animation:aDiamond 1.8s infinite alternate; }
+        .skin-shadow    { filter:grayscale(1) brightness(0.05); animation:aShadow 3s infinite alternate; }
+        .skin-giant     { filter:drop-shadow(0 0 25px #f1c40f) brightness(1.3); animation:aGiant 1.5s infinite alternate; }
+
+        @keyframes aBob       { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+        @keyframes aWobble    { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-10deg)} 75%{transform:rotate(10deg)} }
+        @keyframes aFloat     { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-18px) rotate(15deg)} }
+        @keyframes aShake     { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        @keyframes aHeartbeat { 0%,100%{transform:scale(1)} 15%{transform:scale(1.2)} 30%{transform:scale(1)} 45%{transform:scale(1.1)} }
+        @keyframes aSpin      { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+        @keyframes aWave      { 0%,100%{transform:rotate(-10deg)} 50%{transform:rotate(10deg)} }
+        @keyframes aVibrate   { 0%,100%{transform:translate(0,0)} 50%{transform:translate(3px,2px)} }
+        @keyframes aNight     { 0%{filter:hue-rotate(210deg) saturate(3) brightness(0.4) drop-shadow(0 0 5px #1a237e)} 100%{filter:hue-rotate(220deg) saturate(3) brightness(0.7) drop-shadow(0 0 20px #3949ab)} }
+        @keyframes aMetalGlow { 0%{filter:hue-rotate(10deg) sepia(1) saturate(4) brightness(0.75) drop-shadow(0 0 4px #cd7f32)} 100%{filter:hue-rotate(10deg) sepia(1) saturate(4) brightness(1.0) drop-shadow(0 0 18px #cd7f32)} }
+        @keyframes aFlip      { 0%,100%{transform:rotateY(0) scale(1)} 50%{transform:rotateY(180deg) scale(1.1)} }
+        @keyframes aGoldPulse { 0%{filter:sepia(1) saturate(15) brightness(1.1) drop-shadow(0 0 6px #ffcc00);transform:scale(1)} 100%{filter:sepia(1) saturate(20) brightness(1.5) drop-shadow(0 0 22px #ffcc00);transform:scale(1.08)} }
+        @keyframes aEmerald   { 0%{filter:hue-rotate(110deg) saturate(5) brightness(0.9) drop-shadow(0 0 4px #2ecc71)} 100%{filter:hue-rotate(110deg) saturate(6) brightness(1.3) drop-shadow(0 0 22px #2ecc71)} }
+        @keyframes aToxic     { 0%{filter:hue-rotate(75deg) saturate(6) brightness(1.2) drop-shadow(0 0 6px #adff2f);transform:scale(1)} 100%{filter:hue-rotate(85deg) saturate(8) brightness(1.6) drop-shadow(0 0 22px #adff2f);transform:scale(1.08)} }
+        @keyframes aRainbow   { 0%{filter:hue-rotate(0deg) saturate(3) brightness(1.1)} 100%{filter:hue-rotate(360deg) saturate(3) brightness(1.1)} }
+        @keyframes aFire      { 0%{filter:hue-rotate(5deg) saturate(5) brightness(1.0) drop-shadow(0 0 8px #e67e22);transform:scale(1) rotate(-2deg)} 100%{filter:hue-rotate(15deg) saturate(6) brightness(1.3) drop-shadow(0 0 22px #ff4500);transform:scale(1.1) rotate(2deg)} }
+        @keyframes aCosmos    { 0%{filter:hue-rotate(240deg) saturate(3) brightness(0.35) drop-shadow(0 0 10px #6c3483)} 100%{filter:hue-rotate(260deg) saturate(4) brightness(0.55) drop-shadow(0 0 28px #a569bd)} }
+        @keyframes aDiamond   { 0%{filter:hue-rotate(175deg) saturate(2) brightness(1.8) drop-shadow(0 0 10px #85c1e9)} 100%{filter:hue-rotate(190deg) saturate(3) brightness(2.6) drop-shadow(0 0 28px #aed6f1)} }
+        @keyframes aShadow    { 0%{filter:grayscale(1) brightness(0.05)} 100%{filter:grayscale(1) brightness(0.15) drop-shadow(0 0 22px #333)} }
+        @keyframes aGiant     { 0%{transform:scale(1.2) rotate(-3deg);filter:drop-shadow(0 0 15px #f1c40f) brightness(1.2)} 100%{transform:scale(1.35) rotate(3deg);filter:drop-shadow(0 0 35px #f1c40f) brightness(1.5)} }
+
+        .float { position:fixed; color:var(--yellow); font-weight:bold; font-size:28px; pointer-events:none; animation:floatUp 0.8s forwards; z-index:999; }
+        @keyframes floatUp { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(-120px);opacity:0} }
     </style>
 </head>
 <body>
+
 <div class="stats-box">
     <div class="vip-badge" id="v-bad">★ VIP xeoni7 x2 ★</div>
     <span class="score-val" id="sc-val">0</span>
     <div class="sub-stats">За клик: +<span id="c-pw">1</span> | В секунду: +<span id="a-pw">0</span></div>
 </div>
+
 <div id="game-area">
-    <img id="banana" src="https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/banana-emoji.png" class="skin-classic" onclick="handleBananaClick(event)" onerror="this.src='https://img.icons8.com/emoji/256/banana-emoji.png'">
+    <img id="banana" src="https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/banana-emoji.png" class="skin-classic" onclick="handleBananaClick(event)">
 </div>
+
 <button class="btn btn-don" onclick="openDonate()">💜 ПОДДЕРЖАТЬ xeoni7 (VIP X2)</button>
 <button class="btn btn-ads" onclick="watchAdBonus()">📺 БОНУС +100 БАНАНОВ</button>
+
+<!-- СУНДУК -->
 <div class="chest-box">
     <div class="chest-title">🎁 Ежедневный сундук</div>
     <span class="chest-emoji" id="chest-emoji">🎁</span>
     <div class="chest-timer" id="chest-timer">Загрузка...</div>
     <button class="chest-btn" id="chest-btn" onclick="openChest()">ОТКРЫТЬ!</button>
 </div>
+
+<!-- ПОПАП НАГРАДЫ -->
 <div class="reward-overlay" id="reward-overlay">
     <div class="reward-box">
-        <span class="reward-big">🎊</span>
+        <span class="reward-chest-big">🎊</span>
         <div class="reward-title" id="reward-title"></div>
         <div class="reward-rarity" id="reward-rarity"></div>
         <div class="reward-items" id="reward-items"></div>
         <button class="reward-close" onclick="closeReward()">ЗАБРАТЬ!</button>
     </div>
 </div>
+
 <div class="title">Улучшения</div>
 <div class="upg-card">
     <div class="upg-name"><b>💪 Качалка пальцев</b><i id="c-cost">Цена: 15</i></div>
@@ -153,6 +170,7 @@
     <div class="upg-name"><b>🤖 Банано-бот</b><i id="a-cost">Цена: 50</i></div>
     <button class="buy-btn" onclick="buyUpgrade('auto')">КУПИТЬ</button>
 </div>
+
 <div class="title">Скины</div>
 <div class="skin-tabs">
     <button class="skin-tab active" data-cat="all" onclick="filterSkins('all',this)">🍌 Все</button>
@@ -163,64 +181,55 @@
     <button class="skin-tab" data-cat="special" onclick="filterSkins('special',this)">✨ Особые</button>
 </div>
 <div class="skin-grid" id="skin-shop"></div>
+
 <script>
-const DONATE_URL="https://www.donationalerts.com/r/xeoni7";
-const BANANA_IMG=document.getElementById('banana').src;
-let game={
-    score:parseFloat(localStorage.getItem('x_sc'))||0,
-    clickPower:parseInt(localStorage.getItem('x_cp'))||1,
-    autoPower:parseInt(localStorage.getItem('x_ap'))||0,
-    clickCost:parseInt(localStorage.getItem('x_cc'))||15,
-    autoCost:parseInt(localStorage.getItem('x_ac'))||50,
-    isVip:localStorage.getItem('x_vip')==='true',
-    ownedSkins:JSON.parse(localStorage.getItem('x_own'))||[0],
-    activeSkin:parseInt(localStorage.getItem('x_act'))||0,
-    lastChest:localStorage.getItem('x_chest')||'0'
-};
-const skinList=[
-    {n:"Классик", p:0,      cls:"skin-classic",   cat:"common",    emoji:"🍌"},
-    {n:"Зелень",  p:200,    cls:"skin-green",      cat:"common",    emoji:"🟢"},
-    {n:"Переспел",p:500,    cls:"skin-overripe",   cat:"common",    emoji:"🟤"},
-    {n:"Снег",    p:1000,   cls:"skin-snow",       cat:"common",    emoji:"⚪"},
-    {n:"Уголь",   p:1500,   cls:"skin-coal",       cat:"common",    emoji:"⚫"},
-    {n:"Ночь",    p:3000,   cls:"skin-night",      cat:"rare",      emoji:"🌙"},
-    {n:"Аметист", p:5000,   cls:"skin-amethyst",   cat:"rare",      emoji:"💜"},
-    {n:"Морской", p:7000,   cls:"skin-sea",        cat:"rare",      emoji:"🌊"},
-    {n:"Лесной",  p:10000,  cls:"skin-forest",     cat:"rare",      emoji:"🌲"},
-    {n:"Стальной",p:12000,  cls:"skin-steel",      cat:"rare",      emoji:"🔩"},
-    {n:"Малина",  p:15000,  cls:"skin-raspberry",  cat:"rare",      emoji:"🍓"},
-    {n:"Бронза",  p:25000,  cls:"skin-bronze",     cat:"epic",      emoji:"🥉"},
-    {n:"Серебро", p:40000,  cls:"skin-silver",     cat:"epic",      emoji:"🥈"},
-    {n:"Золото",  p:60000,  cls:"skin-gold",       cat:"epic",      emoji:"🥇"},
-    {n:"Изумруд", p:80000,  cls:"skin-emerald",    cat:"epic",      emoji:"💚"},
-    {n:"Рубин",   p:100000, cls:"skin-ruby",       cat:"epic",      emoji:"❤️"},
-    {n:"Ядовитый",p:120000, cls:"skin-toxic",      cat:"epic",      emoji:"☣️"},
-    {n:"Радуга",  p:200000, cls:"skin-rainbow",    cat:"legendary", emoji:"🌈"},
-    {n:"Огненный",p:300000, cls:"skin-fire",       cat:"legendary", emoji:"🔥"},
-    {n:"Космос",  p:400000, cls:"skin-cosmos",     cat:"legendary", emoji:"🌌"},
-    {n:"Алмаз",   p:500000, cls:"skin-diamond",    cat:"legendary", emoji:"💎"},
-    {n:"Тень",    p:666000, cls:"skin-shadow",     cat:"legendary", emoji:"🖤"},
-    {n:"Гигант",  p:0,      cls:"skin-giant",      cat:"special",   emoji:"🍌",secret:true},
-];
-const rarityLabels={common:"Обычный",rare:"Редкий",epic:"Эпический",legendary:"Легендарный",special:"✨ Особый"};
-const rarityColors={common:"#aaa",rare:"#4fc3f7",epic:"#ab47bc",legendary:"#f1c40f"};
-const rarityNames={common:"⚪ Обычный",rare:"🔵 Редкий",epic:"🟣 Эпический",legendary:"🌟 Легендарный"};
-const chestPool={
-    common:[
-        {title:"Горсть бананов",  items:["🍌 +10 бананов"],             action:()=>{game.score+=10}},
-        {title:"Немного бананов", items:["🍌 +50 бананов"],             action:()=>{game.score+=50}},
-        {title:"Пачка бананов",   items:["🍌 +100 бананов"],            action:()=>{game.score+=100}},
-        {title:"Хорошая находка", items:["🍌 +250 бананов"],            action:()=>{game.score+=250}},
-        {title:"Двойной бонус!",  items:["🍌 x2 к текущим"],            action:()=>{game.score=Math.floor(game.score*2)}},
-    ],
-    rare:[
-        {title:"Редкая находка",  items:["🍌 +500 бананов"],            action:()=>{game.score+=500}},
-        {title:"Редкая находка",  items:["🍌 +1000 бананов"],           action:()=>{game.score+=1000}},
-        {title:"Редкая находка",  items:["🍌 +2000 бананов"],           action:()=>{game.score+=2000}},
-        {title:"Сила пальцев!",   items:["💪 +1 к клику"],              action:()=>{game.clickPower++}},
-        {title:"Тройной бонус!",  items:["🍌 x3 к текущим"],            action:()=>{game.score=Math.floor(game.score*3)}},
-    ],
-    epic:[
-        {title:"Эпическая удача!",items:["🍌 +3000 бананов"],           action:()=>{game.score+=3000}},
-        {title:"Эпическая удача!",items:["🍌 +5000 бананов"],           action:()=>{game.score+=5000}},
-        {title:"Мощ
+    const DONATE_URL = "https://www.donationalerts.com/r/xeoni7";
+    const BANANA_IMG = document.getElementById('banana').src;
+
+    let game = {
+        score: parseFloat(localStorage.getItem('x_sc')) || 0,
+        clickPower: parseInt(localStorage.getItem('x_cp')) || 1,
+        autoPower: parseInt(localStorage.getItem('x_ap')) || 0,
+        clickCost: parseInt(localStorage.getItem('x_cc')) || 15,
+        autoCost: parseInt(localStorage.getItem('x_ac')) || 50,
+        isVip: localStorage.getItem('x_vip') === 'true',
+        ownedSkins: JSON.parse(localStorage.getItem('x_own')) || [0],
+        activeSkin: parseInt(localStorage.getItem('x_act')) || 0,
+        lastChest: localStorage.getItem('x_chest') || '0'
+    };
+
+    const skinList = [
+        { n:"Классик",  p:0,      cls:"skin-classic",   cat:"common",    emoji:"🍌" },
+        { n:"Зелень",   p:200,    cls:"skin-green",      cat:"common",    emoji:"🟢" },
+        { n:"Переспел", p:500,    cls:"skin-overripe",   cat:"common",    emoji:"🟤" },
+        { n:"Снег",     p:1000,   cls:"skin-snow",       cat:"common",    emoji:"⚪" },
+        { n:"Уголь",    p:1500,   cls:"skin-coal",       cat:"common",    emoji:"⚫" },
+        { n:"Ночь",     p:3000,   cls:"skin-night",      cat:"rare",      emoji:"🌙" },
+        { n:"Аметист",  p:5000,   cls:"skin-amethyst",   cat:"rare",      emoji:"💜" },
+        { n:"Морской",  p:7000,   cls:"skin-sea",        cat:"rare",      emoji:"🌊" },
+        { n:"Лесной",   p:10000,  cls:"skin-forest",     cat:"rare",      emoji:"🌲" },
+        { n:"Стальной", p:12000,  cls:"skin-steel",      cat:"rare",      emoji:"🔩" },
+        { n:"Малина",   p:15000,  cls:"skin-raspberry",  cat:"rare",      emoji:"🍓" },
+        { n:"Бронза",   p:25000,  cls:"skin-bronze",     cat:"epic",      emoji:"🥉" },
+        { n:"Серебро",  p:40000,  cls:"skin-silver",     cat:"epic",      emoji:"🥈" },
+        { n:"Золото",   p:60000,  cls:"skin-gold",       cat:"epic",      emoji:"🥇" },
+        { n:"Изумруд",  p:80000,  cls:"skin-emerald",    cat:"epic",      emoji:"💚" },
+        { n:"Рубин",    p:100000, cls:"skin-ruby",       cat:"epic",      emoji:"❤️" },
+        { n:"Ядовитый", p:120000, cls:"skin-toxic",      cat:"epic",      emoji:"☣️" },
+        { n:"Радуга",   p:200000, cls:"skin-rainbow",    cat:"legendary", emoji:"🌈" },
+        { n:"Огненный", p:300000, cls:"skin-fire",       cat:"legendary", emoji:"🔥" },
+        { n:"Космос",   p:400000, cls:"skin-cosmos",     cat:"legendary", emoji:"🌌" },
+        { n:"Алмаз",    p:500000, cls:"skin-diamond",    cat:"legendary", emoji:"💎" },
+        { n:"Тень",     p:666000, cls:"skin-shadow",     cat:"legendary", emoji:"🖤" },
+        { n:"Гигант",   p:0,      cls:"skin-giant",      cat:"special",   emoji:"🍌", secret:true },
+    ];
+
+    const rarityLabels = { common:"Обычный", rare:"Редкий", epic:"Эпический", legendary:"Легендарный", special:"✨ Особый" };
+    const rarityColors = { common:"#aaa", rare:"#4fc3f7", epic:"#ab47bc", legendary:"#f1c40f" };
+    const rarityNames  = { common:"⚪ Обычный", rare:"🔵 Редкий", epic:"🟣 Эпический", legendary:"🌟 Легендарный" };
+
+    let currentFilter = 'all';
+
+    // ======= СУНДУК =======
+    const rewards = {
+    
