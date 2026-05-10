@@ -45,7 +45,7 @@
         .skin-rarity.epic { color:#ab47bc; }
         .skin-rarity.legendary { background:linear-gradient(90deg,#f1c40f,#e67e22); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; }
 
-        /* СКИНЫ */
+        /* СКИНЫ — оригинальные */
         .skin-classic   { filter: none; }
         .skin-green     { filter: hue-rotate(60deg) saturate(1.5) brightness(1.1); }
         .skin-overripe  { filter: hue-rotate(25deg) saturate(0.5) brightness(0.45); }
@@ -69,11 +69,30 @@
         .skin-diamond   { filter: hue-rotate(175deg) saturate(2) brightness(2.2) drop-shadow(0 0 20px #85c1e9); animation: aDiamond 1.8s infinite alternate; }
         .skin-shadow    { filter: grayscale(1) brightness(0.05); animation: aShadow 3s infinite alternate; }
 
+        /* НОВЫЕ СКИНЫ */
+        /* Обычные */
+        .skin-carrot    { filter: hue-rotate(22deg) saturate(5) brightness(1.15) contrast(1.1); }
+        .skin-big       { transform: scale(1.45); filter: none; }
+        /* Редкие */
+        .skin-lazurite  { filter: hue-rotate(200deg) saturate(3.5) brightness(1.1) drop-shadow(0 0 8px #1a6fa8); }
+        .skin-unripe    { filter: hue-rotate(80deg) saturate(3) brightness(0.75) contrast(1.2); }
+        /* Эпические */
+        .skin-pixel     { filter: none; image-rendering: pixelated; image-rendering: crisp-edges; transform: scale(1); }
+        .skin-pixel-wrap { image-rendering: pixelated; image-rendering: crisp-edges; }
+        .skin-glaze     { filter: brightness(1.55) saturate(0.4) contrast(0.85) drop-shadow(0 0 10px rgba(255,255,240,0.8)); }
+        /* Легендарные */
+        .skin-cherry    { filter: hue-rotate(335deg) saturate(6) brightness(0.8) contrast(1.3) drop-shadow(0 0 14px #c0392b); animation: aCherry 1.5s infinite alternate; }
+        .skin-pen       { filter: hue-rotate(185deg) saturate(1.5) brightness(0.9) contrast(1.4); animation: aPen 2s infinite linear; }
+        .skin-sunrise   { animation: aSunrise 3s infinite linear; }
+
         @keyframes aRainbow { 0%{filter:hue-rotate(0deg) saturate(3)} 100%{filter:hue-rotate(360deg) saturate(3)} }
         @keyframes aFire    { 0%{filter:hue-rotate(5deg) saturate(5) brightness(1.0) drop-shadow(0 0 8px #e67e22);transform:scale(1)} 100%{filter:hue-rotate(15deg) saturate(6) brightness(1.3) drop-shadow(0 0 22px #ff4500);transform:scale(1.08)} }
         @keyframes aCosmos  { 0%{filter:hue-rotate(240deg) saturate(3) brightness(0.35) drop-shadow(0 0 10px #6c3483)} 100%{filter:hue-rotate(260deg) saturate(4) brightness(0.55) drop-shadow(0 0 28px #a569bd)} }
         @keyframes aDiamond { 0%{filter:hue-rotate(175deg) saturate(2) brightness(1.8) drop-shadow(0 0 10px #85c1e9)} 100%{filter:hue-rotate(190deg) saturate(3) brightness(2.6) drop-shadow(0 0 28px #aed6f1)} }
         @keyframes aShadow  { 0%{filter:grayscale(1) brightness(0.05)} 100%{filter:grayscale(1) brightness(0.15) drop-shadow(0 0 22px #333)} }
+        @keyframes aCherry  { 0%{filter:hue-rotate(335deg) saturate(6) brightness(0.75) drop-shadow(0 0 8px #922b21)} 100%{filter:hue-rotate(345deg) saturate(7) brightness(0.95) drop-shadow(0 0 22px #e74c3c)} }
+        @keyframes aPen     { 0%{filter:hue-rotate(185deg) saturate(1.5) brightness(0.9) contrast(1.4) drop-shadow(0 0 0px #000);transform:rotate(0deg) scale(1)} 25%{transform:rotate(-8deg) scale(1.05)} 75%{transform:rotate(8deg) scale(1.05)} 100%{filter:hue-rotate(185deg) saturate(1.5) brightness(0.9) contrast(1.4) drop-shadow(0 0 0px #000);transform:rotate(0deg) scale(1)} }
+        @keyframes aSunrise { 0%{filter:hue-rotate(0deg) saturate(4) brightness(1.0) drop-shadow(0 0 10px #e67e22)} 33%{filter:hue-rotate(20deg) saturate(5) brightness(1.2) drop-shadow(0 0 18px #f39c12)} 66%{filter:hue-rotate(340deg) saturate(5) brightness(1.1) drop-shadow(0 0 18px #e74c3c)} 100%{filter:hue-rotate(0deg) saturate(4) brightness(1.0) drop-shadow(0 0 10px #e67e22)} }
 
         .float { position:fixed; color:var(--yellow); font-weight:bold; font-size:28px; pointer-events:none; animation:floatUp 0.8s forwards; z-index:999; }
         @keyframes floatUp { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(-120px);opacity:0} }
@@ -130,28 +149,41 @@
     };
 
     const skinList = [
-        { n:"Классик",  p:0,      cls:"skin-classic",   cat:"common",    emoji:"🍌" },
-        { n:"Зелень",   p:200,    cls:"skin-green",     cat:"common",    emoji:"🟢" },
-        { n:"Переспел", p:500,    cls:"skin-overripe",  cat:"common",    emoji:"🟤" },
-        { n:"Снег",     p:1000,   cls:"skin-snow",      cat:"common",    emoji:"⚪" },
-        { n:"Уголь",    p:1500,   cls:"skin-coal",      cat:"common",    emoji:"⚫" },
-        { n:"Ночь",     p:3000,   cls:"skin-night",     cat:"rare",      emoji:"🌙" },
-        { n:"Аметист",  p:5000,   cls:"skin-amethyst",  cat:"rare",      emoji:"💜" },
-        { n:"Морской",  p:7000,   cls:"skin-sea",       cat:"rare",      emoji:"🌊" },
-        { n:"Лесной",   p:10000,  cls:"skin-forest",    cat:"rare",      emoji:"🌲" },
-        { n:"Стальной", p:12000,  cls:"skin-steel",     cat:"rare",      emoji:"🔩" },
-        { n:"Малина",   p:15000,  cls:"skin-raspberry", cat:"rare",      emoji:"🍓" },
-        { n:"Бронза",   p:25000,  cls:"skin-bronze",    cat:"epic",      emoji:"🥉" },
-        { n:"Серебро",  p:40000,  cls:"skin-silver",    cat:"epic",      emoji:"🥈" },
-        { n:"Золото",   p:60000,  cls:"skin-gold",      cat:"epic",      emoji:"🥇" },
-        { n:"Изумруд",  p:80000,  cls:"skin-emerald",   cat:"epic",      emoji:"💚" },
-        { n:"Рубин",    p:100000, cls:"skin-ruby",      cat:"epic",      emoji:"❤️" },
-        { n:"Ядовитый", p:120000, cls:"skin-toxic",     cat:"epic",      emoji:"☣️" },
-        { n:"Радуга",   p:200000, cls:"skin-rainbow",   cat:"legendary", emoji:"🌈" },
-        { n:"Огненный", p:300000, cls:"skin-fire",      cat:"legendary", emoji:"🔥" },
-        { n:"Космос",   p:400000, cls:"skin-cosmos",    cat:"legendary", emoji:"🌌" },
-        { n:"Алмаз",    p:500000, cls:"skin-diamond",   cat:"legendary", emoji:"💎" },
-        { n:"Тень",     p:666000, cls:"skin-shadow",    cat:"legendary", emoji:"🖤" },
+        // --- ОБЫЧНЫЕ ---
+        { n:"Классик",        p:0,      cls:"skin-classic",   cat:"common",    emoji:"🍌" },
+        { n:"Зелень",         p:200,    cls:"skin-green",     cat:"common",    emoji:"🟢" },
+        { n:"Переспел",       p:500,    cls:"skin-overripe",  cat:"common",    emoji:"🟤" },
+        { n:"Снег",           p:1000,   cls:"skin-snow",      cat:"common",    emoji:"⚪" },
+        { n:"Уголь",          p:1500,   cls:"skin-coal",      cat:"common",    emoji:"⚫" },
+        { n:"Морковный",      p:800,    cls:"skin-carrot",    cat:"common",    emoji:"🥕" },
+        { n:"Большой",        p:1200,   cls:"skin-big",       cat:"common",    emoji:"🔆" },
+        // --- РЕДКИЕ ---
+        { n:"Ночь",           p:3000,   cls:"skin-night",     cat:"rare",      emoji:"🌙" },
+        { n:"Аметист",        p:5000,   cls:"skin-amethyst",  cat:"rare",      emoji:"💜" },
+        { n:"Морской",        p:7000,   cls:"skin-sea",       cat:"rare",      emoji:"🌊" },
+        { n:"Лесной",         p:10000,  cls:"skin-forest",    cat:"rare",      emoji:"🌲" },
+        { n:"Стальной",       p:12000,  cls:"skin-steel",     cat:"rare",      emoji:"🔩" },
+        { n:"Малина",         p:15000,  cls:"skin-raspberry", cat:"rare",      emoji:"🍓" },
+        { n:"Лазуритовый",    p:4000,   cls:"skin-lazurite",  cat:"rare",      emoji:"🔷" },
+        { n:"Неспелый",       p:6000,   cls:"skin-unripe",    cat:"rare",      emoji:"🌿" },
+        // --- ЭПИЧЕСКИЕ ---
+        { n:"Бронза",         p:25000,  cls:"skin-bronze",    cat:"epic",      emoji:"🥉" },
+        { n:"Серебро",        p:40000,  cls:"skin-silver",    cat:"epic",      emoji:"🥈" },
+        { n:"Золото",         p:60000,  cls:"skin-gold",      cat:"epic",      emoji:"🥇" },
+        { n:"Изумруд",        p:80000,  cls:"skin-emerald",   cat:"epic",      emoji:"💚" },
+        { n:"Рубин",          p:100000, cls:"skin-ruby",      cat:"epic",      emoji:"❤️" },
+        { n:"Ядовитый",       p:120000, cls:"skin-toxic",     cat:"epic",      emoji:"☣️" },
+        { n:"Пиксельный",     p:35000,  cls:"skin-pixel",     cat:"epic",      emoji:"👾" },
+        { n:"В глазури",      p:50000,  cls:"skin-glaze",     cat:"epic",      emoji:"🤍" },
+        // --- ЛЕГЕНДАРНЫЕ ---
+        { n:"Радуга",         p:200000, cls:"skin-rainbow",   cat:"legendary", emoji:"🌈" },
+        { n:"Огненный",       p:300000, cls:"skin-fire",      cat:"legendary", emoji:"🔥" },
+        { n:"Космос",         p:400000, cls:"skin-cosmos",    cat:"legendary", emoji:"🌌" },
+        { n:"Алмаз",          p:500000, cls:"skin-diamond",   cat:"legendary", emoji:"💎" },
+        { n:"Тень",           p:666000, cls:"skin-shadow",    cat:"legendary", emoji:"🖤" },
+        { n:"Вишнёвый",       p:250000, cls:"skin-cherry",    cat:"legendary", emoji:"🍒" },
+        { n:"Банан-ручка",    p:350000, cls:"skin-pen",       cat:"legendary", emoji:"🖊️" },
+        { n:"Восход",         p:450000, cls:"skin-sunrise",   cat:"legendary", emoji:"🌅" },
     ];
 
     const rarityLabels = { common:"Обычный", rare:"Редкий", epic:"Эпический", legendary:"Легендарный" };
@@ -255,5 +287,5 @@
     updateUI();
 </script>
 </body>
-    </html>
-    
+</html>
+
