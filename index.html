@@ -13,8 +13,48 @@
         .sub-stats { font-size:13px; color:#888; margin-top:5px; }
         .vip-badge { color:var(--purple); font-weight:bold; font-size:14px; display:none; margin-bottom:5px; }
         #game-area { height:220px; display:flex; align-items:center; justify-content:center; position:relative; }
-        #banana { width:170px; cursor:pointer; transition:transform 0.1s; z-index:5; }
-        #banana:active { transform:scale(0.85) !important; }
+        #banana-wrap { position:relative; display:inline-block; cursor:pointer; }
+        #banana { width:170px; transition:transform 0.1s; z-index:5; display:block; }
+        #banana-wrap:active #banana { transform:scale(0.85) !important; }
+        /* Eyes overlay for cheremsha skin */
+        #cheremsha-eyes {
+            display:none;
+            position:absolute;
+            top:38%;
+            left:50%;
+            transform:translateX(-50%);
+            z-index:10;
+            pointer-events:none;
+        }
+        #cheremsha-eyes .eye {
+            display:inline-block;
+            width:18px; height:18px;
+            background:white;
+            border-radius:50%;
+            border:2px solid #555;
+            position:relative;
+            margin:0 4px;
+            vertical-align:middle;
+        }
+        #cheremsha-eyes .eye::after {
+            content:'';
+            position:absolute;
+            width:8px; height:8px;
+            background:#222;
+            border-radius:50%;
+            top:50%; left:50%;
+            transform:translate(-40%,-40%);
+        }
+        #cheremsha-eyes .eye::before {
+            content:'';
+            position:absolute;
+            width:4px; height:4px;
+            background:rgba(255,255,255,0.85);
+            border-radius:50%;
+            top:25%; left:20%;
+            z-index:2;
+        }
+
         .btn { width:100%; max-width:340px; padding:18px; border:none; border-radius:20px; font-weight:800; cursor:pointer; margin-bottom:12px; font-size:15px; transition:0.3s; }
         .btn-don { background:linear-gradient(45deg,#8e44ad,#9b59b6); color:white; box-shadow:0 4px 15px rgba(155,89,182,0.4); }
         .btn-ads { background:#ff4757; color:white; }
@@ -45,7 +85,7 @@
         .skin-rarity.epic { color:#ab47bc; }
         .skin-rarity.legendary { background:linear-gradient(90deg,#f1c40f,#e67e22); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; }
 
-        /* СКИНЫ — оригинальные */
+        /* === СКИНЫ === */
         .skin-classic   { filter: none; }
         .skin-green     { filter: hue-rotate(60deg) saturate(1.5) brightness(1.1); }
         .skin-overripe  { filter: hue-rotate(25deg) saturate(0.5) brightness(0.45); }
@@ -68,22 +108,64 @@
         .skin-cosmos    { filter: hue-rotate(240deg) saturate(3) brightness(0.4) drop-shadow(0 0 20px #9b59b6); animation: aCosmos 2s infinite alternate; }
         .skin-diamond   { filter: hue-rotate(175deg) saturate(2) brightness(2.2) drop-shadow(0 0 20px #85c1e9); animation: aDiamond 1.8s infinite alternate; }
         .skin-shadow    { filter: grayscale(1) brightness(0.05); animation: aShadow 3s infinite alternate; }
-
-        /* НОВЫЕ СКИНЫ */
-        /* Обычные */
         .skin-carrot    { filter: hue-rotate(22deg) saturate(5) brightness(1.15) contrast(1.1); }
         .skin-big       { transform: scale(1.45); filter: none; }
-        /* Редкие */
         .skin-lazurite  { filter: hue-rotate(200deg) saturate(3.5) brightness(1.1) drop-shadow(0 0 8px #1a6fa8); }
         .skin-unripe    { filter: hue-rotate(80deg) saturate(3) brightness(0.75) contrast(1.2); }
-        /* Эпические */
-        .skin-pixel     { filter: none; image-rendering: pixelated; image-rendering: crisp-edges; transform: scale(1); }
-        .skin-pixel-wrap { image-rendering: pixelated; image-rendering: crisp-edges; }
+        .skin-pixel     { filter: none; image-rendering: pixelated; image-rendering: crisp-edges; }
         .skin-glaze     { filter: brightness(1.55) saturate(0.4) contrast(0.85) drop-shadow(0 0 10px rgba(255,255,240,0.8)); }
-        /* Легендарные */
         .skin-cherry    { filter: hue-rotate(335deg) saturate(6) brightness(0.8) contrast(1.3) drop-shadow(0 0 14px #c0392b); animation: aCherry 1.5s infinite alternate; }
         .skin-pen       { filter: hue-rotate(185deg) saturate(1.5) brightness(0.9) contrast(1.4); animation: aPen 2s infinite linear; }
         .skin-sunrise   { animation: aSunrise 3s infinite linear; }
+
+        /* === НОВЫЕ ЭПИЧЕСКИЕ СКИНЫ === */
+
+        /* Черемша: серый + пушистость через drop-shadow по кругу */
+        .skin-cheremsha {
+            filter: grayscale(1) brightness(0.75) contrast(0.9)
+                    drop-shadow(0 0 4px rgba(200,200,200,0.9))
+                    drop-shadow(0 0 8px rgba(180,180,180,0.7))
+                    drop-shadow(0 0 13px rgba(160,160,160,0.5))
+                    drop-shadow(2px 2px 5px rgba(220,220,220,0.6))
+                    drop-shadow(-2px -2px 5px rgba(220,220,220,0.6))
+                    drop-shadow(2px -2px 5px rgba(220,220,220,0.5))
+                    drop-shadow(-2px 2px 5px rgba(220,220,220,0.5));
+            animation: aCheremsha 2s infinite alternate;
+        }
+
+        /* Бубльгум: синий-жёлтый-оранжевый-красный переливы */
+        .skin-bubblegum { animation: aBubblegum 2.2s infinite linear; }
+
+        @keyframes aCheremsha {
+            0%  { filter: grayscale(1) brightness(0.70) contrast(0.9)
+                    drop-shadow(0 0 5px rgba(210,210,210,1))
+                    drop-shadow(0 0 10px rgba(190,190,190,0.8))
+                    drop-shadow(0 0 16px rgba(170,170,170,0.6))
+                    drop-shadow(3px 3px 6px rgba(230,230,230,0.7))
+                    drop-shadow(-3px -3px 6px rgba(230,230,230,0.7)); }
+            100% { filter: grayscale(1) brightness(0.82) contrast(0.88)
+                    drop-shadow(0 0 7px rgba(230,230,230,1))
+                    drop-shadow(0 0 14px rgba(210,210,210,0.9))
+                    drop-shadow(0 0 22px rgba(200,200,200,0.7))
+                    drop-shadow(4px 4px 8px rgba(245,245,245,0.8))
+                    drop-shadow(-4px -4px 8px rgba(245,245,245,0.8)); }
+        }
+
+        @keyframes aBubblegum {
+            0%   { filter: hue-rotate(200deg) saturate(6) brightness(1.3) contrast(1.2) drop-shadow(0 0 14px #3498db); }
+            25%  { filter: hue-rotate(40deg)  saturate(7) brightness(1.4) contrast(1.2) drop-shadow(0 0 14px #f1c40f); }
+            50%  { filter: hue-rotate(20deg)  saturate(8) brightness(1.3) contrast(1.3) drop-shadow(0 0 14px #e67e22); }
+            75%  { filter: hue-rotate(340deg) saturate(7) brightness(1.2) contrast(1.2) drop-shadow(0 0 14px #e74c3c); }
+            100% { filter: hue-rotate(200deg) saturate(6) brightness(1.3) contrast(1.2) drop-shadow(0 0 14px #3498db); }
+        }
+
+        /* Иконки скинов в магазине */
+        .skin-cheremsha-icon {
+            filter: grayscale(1) brightness(0.75) contrast(0.9)
+                    drop-shadow(0 0 5px rgba(200,200,200,0.9))
+                    drop-shadow(0 0 10px rgba(180,180,180,0.7));
+        }
+        .skin-bubblegum-icon { animation: aBubblegum 2.2s infinite linear; }
 
         @keyframes aRainbow { 0%{filter:hue-rotate(0deg) saturate(3)} 100%{filter:hue-rotate(360deg) saturate(3)} }
         @keyframes aFire    { 0%{filter:hue-rotate(5deg) saturate(5) brightness(1.0) drop-shadow(0 0 8px #e67e22);transform:scale(1)} 100%{filter:hue-rotate(15deg) saturate(6) brightness(1.3) drop-shadow(0 0 22px #ff4500);transform:scale(1.08)} }
@@ -107,7 +189,14 @@
 </div>
 
 <div id="game-area">
-    <img id="banana" src="https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/banana-emoji.png" class="skin-classic" onclick="handleBananaClick(event)" onerror="this.src='https://img.icons8.com/emoji/256/banana-emoji.png'">
+    <div id="banana-wrap" onclick="handleBananaClick(event)">
+        <img id="banana" src="https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/banana-emoji.png" class="skin-classic" onerror="this.src='https://img.icons8.com/emoji/256/banana-emoji.png'">
+        <!-- Глазки черемши — показываются только на этом скине -->
+        <div id="cheremsha-eyes">
+            <span class="eye"></span>
+            <span class="eye"></span>
+        </div>
+    </div>
 </div>
 
 <button class="btn btn-don" onclick="openDonate()">💜 ПОДДЕРЖАТЬ xeoni7 (VIP X2)</button>
@@ -135,7 +224,7 @@
 
 <script>
     const DONATE_URL = "https://www.donationalerts.com/r/xeoni7";
-    const BANANA_IMG = document.getElementById('banana').src;
+    const BANANA_IMG = "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/banana-emoji.png";
 
     let game = {
         score:      parseFloat(localStorage.getItem('x_sc'))  || 0,
@@ -150,142 +239,40 @@
 
     const skinList = [
         // --- ОБЫЧНЫЕ ---
-        { n:"Классик",        p:0,      cls:"skin-classic",   cat:"common",    emoji:"🍌" },
-        { n:"Зелень",         p:200,    cls:"skin-green",     cat:"common",    emoji:"🟢" },
-        { n:"Переспел",       p:500,    cls:"skin-overripe",  cat:"common",    emoji:"🟤" },
-        { n:"Снег",           p:1000,   cls:"skin-snow",      cat:"common",    emoji:"⚪" },
-        { n:"Уголь",          p:1500,   cls:"skin-coal",      cat:"common",    emoji:"⚫" },
-        { n:"Морковный",      p:800,    cls:"skin-carrot",    cat:"common",    emoji:"🥕" },
-        { n:"Большой",        p:1200,   cls:"skin-big",       cat:"common",    emoji:"🔆" },
+        { n:"Классик",        p:0,      cls:"skin-classic",      cat:"common",    emoji:"🍌",  hasEyes:false },
+        { n:"Зелень",         p:200,    cls:"skin-green",        cat:"common",    emoji:"🟢",  hasEyes:false },
+        { n:"Переспел",       p:500,    cls:"skin-overripe",     cat:"common",    emoji:"🟤",  hasEyes:false },
+        { n:"Снег",           p:1000,   cls:"skin-snow",         cat:"common",    emoji:"⚪",  hasEyes:false },
+        { n:"Уголь",          p:1500,   cls:"skin-coal",         cat:"common",    emoji:"⚫",  hasEyes:false },
+        { n:"Морковный",      p:800,    cls:"skin-carrot",       cat:"common",    emoji:"🥕",  hasEyes:false },
+        { n:"Большой",        p:1200,   cls:"skin-big",          cat:"common",    emoji:"🔆",  hasEyes:false },
         // --- РЕДКИЕ ---
-        { n:"Ночь",           p:3000,   cls:"skin-night",     cat:"rare",      emoji:"🌙" },
-        { n:"Аметист",        p:5000,   cls:"skin-amethyst",  cat:"rare",      emoji:"💜" },
-        { n:"Морской",        p:7000,   cls:"skin-sea",       cat:"rare",      emoji:"🌊" },
-        { n:"Лесной",         p:10000,  cls:"skin-forest",    cat:"rare",      emoji:"🌲" },
-        { n:"Стальной",       p:12000,  cls:"skin-steel",     cat:"rare",      emoji:"🔩" },
-        { n:"Малина",         p:15000,  cls:"skin-raspberry", cat:"rare",      emoji:"🍓" },
-        { n:"Лазуритовый",    p:4000,   cls:"skin-lazurite",  cat:"rare",      emoji:"🔷" },
-        { n:"Неспелый",       p:6000,   cls:"skin-unripe",    cat:"rare",      emoji:"🌿" },
+        { n:"Ночь",           p:3000,   cls:"skin-night",        cat:"rare",      emoji:"🌙",  hasEyes:false },
+        { n:"Аметист",        p:5000,   cls:"skin-amethyst",     cat:"rare",      emoji:"💜",  hasEyes:false },
+        { n:"Морской",        p:7000,   cls:"skin-sea",          cat:"rare",      emoji:"🌊",  hasEyes:false },
+        { n:"Лесной",         p:10000,  cls:"skin-forest",       cat:"rare",      emoji:"🌲",  hasEyes:false },
+        { n:"Стальной",       p:12000,  cls:"skin-steel",        cat:"rare",      emoji:"🔩",  hasEyes:false },
+        { n:"Малина",         p:15000,  cls:"skin-raspberry",    cat:"rare",      emoji:"🍓",  hasEyes:false },
+        { n:"Лазуритовый",    p:4000,   cls:"skin-lazurite",     cat:"rare",      emoji:"🔷",  hasEyes:false },
+        { n:"Неспелый",       p:6000,   cls:"skin-unripe",       cat:"rare",      emoji:"🌿",  hasEyes:false },
         // --- ЭПИЧЕСКИЕ ---
-        { n:"Бронза",         p:25000,  cls:"skin-bronze",    cat:"epic",      emoji:"🥉" },
-        { n:"Серебро",        p:40000,  cls:"skin-silver",    cat:"epic",      emoji:"🥈" },
-        { n:"Золото",         p:60000,  cls:"skin-gold",      cat:"epic",      emoji:"🥇" },
-        { n:"Изумруд",        p:80000,  cls:"skin-emerald",   cat:"epic",      emoji:"💚" },
-        { n:"Рубин",          p:100000, cls:"skin-ruby",      cat:"epic",      emoji:"❤️" },
-        { n:"Ядовитый",       p:120000, cls:"skin-toxic",     cat:"epic",      emoji:"☣️" },
-        { n:"Пиксельный",     p:35000,  cls:"skin-pixel",     cat:"epic",      emoji:"👾" },
-        { n:"В глазури",      p:50000,  cls:"skin-glaze",     cat:"epic",      emoji:"🤍" },
+        { n:"Бронза",         p:25000,  cls:"skin-bronze",       cat:"epic",      emoji:"🥉",  hasEyes:false },
+        { n:"Серебро",        p:40000,  cls:"skin-silver",       cat:"epic",      emoji:"🥈",  hasEyes:false },
+        { n:"Золото",         p:60000,  cls:"skin-gold",         cat:"epic",      emoji:"🥇",  hasEyes:false },
+        { n:"Изумруд",        p:80000,  cls:"skin-emerald",      cat:"epic",      emoji:"💚",  hasEyes:false },
+        { n:"Рубин",          p:100000, cls:"skin-ruby",         cat:"epic",      emoji:"❤️",  hasEyes:false },
+        { n:"Ядовитый",       p:120000, cls:"skin-toxic",        cat:"epic",      emoji:"☣️",  hasEyes:false },
+        { n:"Пиксельный",     p:35000,  cls:"skin-pixel",        cat:"epic",      emoji:"👾",  hasEyes:false },
+        { n:"В глазури",      p:50000,  cls:"skin-glaze",        cat:"epic",      emoji:"🤍",  hasEyes:false },
+        // --- ЭПИЧЕСКИЕ НОВЫЕ ---
+        { n:"Черемша",        p:90000,  cls:"skin-cheremsha",    cat:"epic",      emoji:"🐾",  hasEyes:true  },
+        { n:"Бубльгум",       p:75000,  cls:"skin-bubblegum",    cat:"epic",      emoji:"🫧",  hasEyes:false },
         // --- ЛЕГЕНДАРНЫЕ ---
-        { n:"Радуга",         p:200000, cls:"skin-rainbow",   cat:"legendary", emoji:"🌈" },
-        { n:"Огненный",       p:300000, cls:"skin-fire",      cat:"legendary", emoji:"🔥" },
-        { n:"Космос",         p:400000, cls:"skin-cosmos",    cat:"legendary", emoji:"🌌" },
-        { n:"Алмаз",          p:500000, cls:"skin-diamond",   cat:"legendary", emoji:"💎" },
-        { n:"Тень",           p:666000, cls:"skin-shadow",    cat:"legendary", emoji:"🖤" },
-        { n:"Вишнёвый",       p:250000, cls:"skin-cherry",    cat:"legendary", emoji:"🍒" },
-        { n:"Банан-ручка",    p:350000, cls:"skin-pen",       cat:"legendary", emoji:"🖊️" },
-        { n:"Восход",         p:450000, cls:"skin-sunrise",   cat:"legendary", emoji:"🌅" },
-    ];
-
-    const rarityLabels = { common:"Обычный", rare:"Редкий", epic:"Эпический", legendary:"Легендарный" };
-    let currentFilter = 'all';
-
-    function filterSkins(cat, btn) {
-        currentFilter = cat;
-        document.querySelectorAll('.skin-tab').forEach(t => t.classList.remove('active'));
-        btn.classList.add('active');
-        renderSkins();
-    }
-
-    function saveGame() {
-        localStorage.setItem('x_sc',  game.score);
-        localStorage.setItem('x_cp',  game.clickPower);
-        localStorage.setItem('x_ap',  game.autoPower);
-        localStorage.setItem('x_cc',  game.clickCost);
-        localStorage.setItem('x_ac',  game.autoCost);
-        localStorage.setItem('x_vip', game.isVip);
-        localStorage.setItem('x_own', JSON.stringify(game.ownedSkins));
-        localStorage.setItem('x_act', game.activeSkin);
-    }
-
-    function handleBananaClick(e) {
-        let p = game.isVip ? game.clickPower * 2 : game.clickPower;
-        game.score += p;
-        let f = document.createElement('div');
-        f.className = 'float'; f.innerText = '+' + p;
-        f.style.left = e.clientX + 'px'; f.style.top = e.clientY + 'px';
-        document.body.appendChild(f);
-        setTimeout(() => f.remove(), 800);
-        updateUI();
-    }
-
-    function buyUpgrade(type) {
-        if (type === 'click' && game.score >= game.clickCost) {
-            game.score -= game.clickCost; game.clickPower++;
-            game.clickCost = Math.round(game.clickCost * 1.6);
-        } else if (type === 'auto' && game.score >= game.autoCost) {
-            game.score -= game.autoCost; game.autoPower++;
-            game.autoCost = Math.round(game.autoCost * 1.7);
-        }
-        updateUI();
-    }
-
-    function selectSkin(id) {
-        if (game.ownedSkins.includes(id)) {
-            game.activeSkin = id;
-        } else if (game.score >= skinList[id].p) {
-            game.score -= skinList[id].p;
-            game.ownedSkins.push(id);
-            game.activeSkin = id;
-        }
-        updateUI();
-    }
-
-    function openDonate() {
-        window.open(DONATE_URL, "_blank");
-        game.isVip = true;
-        updateUI();
-        alert("xeoni7 благодарит тебя! VIP x2 активирован!");
-    }
-
-    function watchAdBonus() {
-        window.open("https://omg10.com/4/10948390", "_blank");
-        game.score += 100;
-        updateUI();
-    }
-
-    function renderSkins() {
-        let html = '';
-        skinList.forEach((s, i) => {
-            if (currentFilter !== 'all' && s.cat !== currentFilter) return;
-            let owned    = game.ownedSkins.includes(i);
-            let isActive = game.activeSkin === i;
-            let price    = owned ? '✓ ВЫБРАТЬ' : '🍌 ' + s.p.toLocaleString('ru');
-            html += `<div class="skin-item ${isActive ? 'active' : ''}" onclick="selectSkin(${i})">
-                <img src="${BANANA_IMG}" class="skin-img ${s.cls}">
-                <div class="skin-label">${s.emoji} ${s.n}</div>
-                <div class="skin-rarity ${s.cat}">${rarityLabels[s.cat]}</div>
-                <div class="skin-price">${price}</div>
-            </div>`;
-        });
-        document.getElementById('skin-shop').innerHTML = html;
-    }
-
-    function updateUI() {
-        document.getElementById('sc-val').innerText  = Math.floor(game.score).toLocaleString('ru');
-        document.getElementById('c-pw').innerText    = game.isVip ? game.clickPower * 2 : game.clickPower;
-        document.getElementById('a-pw').innerText    = game.autoPower;
-        document.getElementById('c-cost').innerText  = "Цена: " + game.clickCost.toLocaleString('ru');
-        document.getElementById('a-cost').innerText  = "Цена: " + game.autoCost.toLocaleString('ru');
-        document.getElementById('v-bad').style.display = game.isVip ? 'block' : 'none';
-        document.getElementById('banana').className  = skinList[game.activeSkin].cls;
-        renderSkins();
-        saveGame();
-    }
-
-    setInterval(() => { if (game.autoPower > 0) { game.score += game.autoPower; updateUI(); } }, 1000);
-    setInterval(saveGame, 5000);
-    updateUI();
-</script>
-</body>
-</html>
-
+        { n:"Радуга",         p:200000, cls:"skin-rainbow",      cat:"legendary", emoji:"🌈",  hasEyes:false },
+        { n:"Огненный",       p:300000, cls:"skin-fire",         cat:"legendary", emoji:"🔥",  hasEyes:false },
+        { n:"Космос",         p:400000, cls:"skin-cosmos",       cat:"legendary", emoji:"🌌",  hasEyes:false },
+        { n:"Алмаз",          p:500000, cls:"skin-diamond",      cat:"legendary", emoji:"💎",  hasEyes:false },
+        { n:"Тень",           p:666000, cls:"skin-shadow",       cat:"legendary", emoji:"🖤",  hasEyes:false },
+        { n:"Вишнёвый",       p:250000, cls:"skin-cherry",       cat:"legendary", emoji:"🍒",  hasEyes:false },
+        { n:"Банан-ручка",    p:350000, cls:"skin-pen",          cat:"legendary", emoji:"🖊️",  hasEyes:false },
+        { n:"Восход",         p:450000, cls:"skin-sunrise",      cat
