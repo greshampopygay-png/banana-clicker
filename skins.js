@@ -1,9 +1,9 @@
-// Полный массив со всеми 28 скинами для Бананового Кликера
+// Полный массив со всеми скинами для Бананового Кликера
 const skins = [
     {
         id: "default",
         name: "Обычный банан",
-        image: "banana-emoji.png", // ПРОВЕРЬ: если стартовый банан называется иначе, замени это имя!
+        image: "banana-emoji.png", 
         cost: 0,
         unlocked: true
     },
@@ -156,7 +156,7 @@ const skins = [
     },
     {
         id: "skin_20260517_161908992",
-        name: "Банан №22",
+        name: "Баanan №22",
         image: "InShot_20260517_161908992.png",
         cost: 3000,
         unlocked: false
@@ -210,6 +210,9 @@ function getSkinById(id) {
     return skins.find(skin => skin.id === id);
 }
 
-// Экспортируем данные для main.js (чтобы игра не вылетала)
-export { skins, getSkinById };
-    
+// Делаем данные доступными глобально для main.js без использования export
+window.skins = skins;
+window.getSkinById = getSkinById;
+
+console.log("Все скины успешно загружены в систему!");
+
