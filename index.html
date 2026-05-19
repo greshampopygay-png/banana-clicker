@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Banana Empire: xeoni7 Official</title>
     <script src="https://omg10.com/4/10948390"></script>
+    <script src="skins.js"></script>
+    
     <style>
         :root { --yellow: #f1c40f; --purple: #9b59b6; --green: #2ecc71; --dark: #0f0f0f; --card: rgba(255,255,255,0.06); }
         body { text-align:center; font-family:'Segoe UI',sans-serif; background:var(--dark); color:white; margin:0; padding:15px; user-select:none; touch-action:manipulation; overflow-x:hidden; }
@@ -45,11 +47,9 @@
         .skin-rarity.epic { color:#ab47bc; }
         .skin-rarity.legendary { background:linear-gradient(90deg,#f1c40f,#e67e22); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800; }
 
-        /* Эффекты для уникальных скинов */
+        /* Эффекты скинов */
         .skin-big       { transform: scale(1.45); filter: none; }
         .anim-rainbow   { animation: aRainbow 2.5s infinite linear; }
-        
-        /* Свечения для твоих фото-скинов */
         .anim-fire      { animation: aFire 1s infinite alternate; }
         .anim-cosmos    { animation: aCosmos 2s infinite alternate; }
         .anim-diamond   { animation: aDiamond 1.8s infinite alternate; }
@@ -106,7 +106,6 @@
 
 <script>
     const DONATE_URL = "https://www.donationalerts.com/r/xeoni7";
-    const DEFAULT_IMG = "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/banana-emoji.png";
 
     let game = {
         score:      parseFloat(localStorage.getItem('x_sc'))  || 0,
@@ -119,45 +118,6 @@
         activeSkin: parseInt(localStorage.getItem('x_act'))   || 0
     };
 
-    // МАССИВ С ТВОИМИ ГОТОВЫМИ ССЫЛКАМИ
-    const skinList = [
-        // --- ОБЫЧНЫЕ ---
-        { n:"Классик",        p:0,      img: DEFAULT_IMG, cls:"",              cat:"common",    emoji:"🍌" },
-        { n:"Зелень",         p:200,    img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/zelen.png", cls:"",              cat:"common",    emoji:"🟢" },
-        { n:"Переспел",       p:500,    img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/perespel.png", cls:"",              cat:"common",    emoji:"🟤" },
-        { n:"Снег",           p:1000,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/sneg.png", cls:"",              cat:"common",    emoji:"⚪" },
-        { n:"Уголь",          p:1500,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/ugol.png", cls:"",              cat:"common",    emoji:"⚫" },
-        { n:"Морковный",      p:800,    img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/morkovniy.png", cls:"",              cat:"common",    emoji:"🥕" },
-        { n:"Большой",        p:1200,   img: DEFAULT_IMG, cls:"skin-big",      cat:"common",    emoji:"🔆" },
-        // --- РЕДКИЕ ---
-        { n:"Ночь",           p:3000,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/noch.png", cls:"",              cat:"rare",      emoji:"🌙" },
-        { n:"Аметист",        p:5000,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/ametist.png", cls:"",              cat:"rare",      emoji:"💜" },
-        { n:"Морской",        p:7000,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/morskoy.png", cls:"",              cat:"rare",      emoji:"🌊" },
-        { n:"Лесной",         p:10000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/lesnoy.png", cls:"",              cat:"rare",      emoji:"🌲" },
-        { n:"Стальной",       p:12000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/stalnoy.png", cls:"",              cat:"rare",      emoji:"🔩" },
-        { n:"Малина",         p:15000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/malina.png", cls:"",              cat:"rare",      emoji:"🍓" },
-        { n:"Лазуритовый",    p:4000,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/lazurit.png", cls:"",              cat:"rare",      emoji:"🔷" },
-        { n:"Неспелый",       p:6000,   img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/nespelyi.png", cls:"",              cat:"rare",      emoji:"🌿" },
-        // --- ЭПИЧЕСКИЕ ---
-        { n:"Бронза",         p:25000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/bronza.png", cls:"",              cat:"epic",      emoji:"🥉" },
-        { n:"Серебро",        p:40000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/serebro.png", cls:"",              cat:"epic",      emoji:"🥈" },
-        { n:"Золото",         p:60000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/zoloto.png", cls:"",              cat:"epic",      emoji:"🥇" },
-        { n:"Изумруд",        p:80000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/izumrud.png", cls:"",              cat:"epic",      emoji:"💚" },
-        { n:"Рубин",          p:100000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/rubin.png", cls:"",              cat:"epic",      emoji:"❤️" },
-        { n:"Ядовитый",       p:120000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/toxic.png", cls:"",              cat:"epic",      emoji:"☣️" },
-        { n:"Пиксельный",     p:35000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/pixel.png", cls:"",              cat:"epic",      emoji:"👾" },
-        { n:"В глазури",      p:50000,  img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/glazur.png", cls:"",              cat:"epic",      emoji:"🤍" },
-        // --- ЛЕГЕНДАРНЫЕ ---
-        { n:"Радуга",         p:200000, img: DEFAULT_IMG, cls:"anim-rainbow",  cat:"legendary", emoji:"🌈" },
-        { n:"Огненный",       p:300000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/fire.png", cls:"anim-fire",     cat:"legendary", emoji:"🔥" },
-        { n:"Космос",         p:400000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/cosmos.png", cls:"anim-cosmos",   cat:"legendary", emoji:"🌌" },
-        { n:"Алмаз",          p:500000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/diamond.png", cls:"anim-diamond",  cat:"legendary", emoji:"💎" },
-        { n:"Тень",           p:666000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/shadow.png", cls:"",              cat:"legendary", emoji:"🖤" },
-        { n:"Вишнёвый",       p:250000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/cherry.png", cls:"anim-cherry",   cat:"legendary", emoji:"🍒" },
-        { n:"Банан-ручка",    p:350000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/pen.png", cls:"anim-pen",      cat:"legendary", emoji:"🖊️" },
-        { n:"Восход",         p:450000, img: "https://raw.githubusercontent.com/greshampopygay-png/banana-clicker/main/sunrise.png", cls:"anim-sunrise",  cat:"legendary", emoji:"🌅" },
-    ];
-
     const rarityLabels = { common:"Обычный", rare:"Редкий", epic:"Эпический", legendary:"Легендарный" };
     let currentFilter = 'all';
 
@@ -166,6 +126,11 @@
         document.querySelectorAll('.skin-tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         renderSkins();
+    }
+
+    // Проверяем, загрузился ли массив из внешнего файла
+    if (typeof skinList === 'undefined') {
+        alert("Ошибка! Файл skins.js не найден или загружен неверно.");
     }
 
     function saveGame() {
@@ -243,7 +208,7 @@
     }
 
     function updateUI() {
-        let activeSkinData = skinList[game.activeSkin];
+        let activeSkinData = skinList[game.activeSkin] || skinList[0];
         document.getElementById('sc-val').innerText  = Math.floor(game.score).toLocaleString('ru');
         document.getElementById('c-pw').innerText    = game.isVip ? game.clickPower * 2 : game.clickPower;
         document.getElementById('a-pw').innerText    = game.autoPower;
@@ -265,4 +230,4 @@
 </script>
 </body>
     </html>
-
+    
