@@ -3,7 +3,7 @@ const skins = [
     {
         id: "default",
         name: "Обычный банан",
-        image: "banana-emoji.png", // Стартовый банан
+        image: "banana-emoji.png", // ПРОВЕРЬ: если стартовый банан называется иначе, замени это имя!
         cost: 0,
         unlocked: true
     },
@@ -198,7 +198,7 @@ const skins = [
     },
     {
         id: "skin_20260519_170517730",
-        name: "Серебряный банан", // Тот самый последний скин!
+        name: "Серебряный банан",
         image: "InShot_20260519_170517730.png",
         cost: 10000,
         unlocked: false
@@ -209,3 +209,7 @@ const skins = [
 function getSkinById(id) {
     return skins.find(skin => skin.id === id);
 }
+
+// Экспортируем данные для main.js (чтобы игра не вылетала)
+export { skins, getSkinById };
+    
